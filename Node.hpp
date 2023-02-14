@@ -22,16 +22,22 @@ private:
    Node<ItemType>* next; // Pointer to next node
    
 public:
+   //Constructors
    Node();
    Node(const ItemType& anItem);
    Node(const ItemType& anItem, Node<ItemType>* nextNodePtr);
-   void setItem(const ItemType& anItem);
+   //Mutator Functions
+   void setCoordinate(const ItemType& anItem);
    void setNextN(Node<ItemType>* nextNodePtr);
    void setNextS(Node<ItemType>* nextNodePtr);
    void setNextE(Node<ItemType>* nextNodePtr);
    void setNextW(Node<ItemType>* nextNodePtr);
-   ItemType getItem() const ;
-   Node<ItemType>* getNext() const ;
+   //Accessor Functions
+   ItemType getCoordinate() const ;
+   Node<ItemType>* getNextN() const ;
+   Node<ItemType>* getNextS() const ;
+   Node<ItemType>* getNextE() const ;
+   Node<ItemType>* getNextW() const ;
 }; // end Node
 
 #include "Node.tpp"
