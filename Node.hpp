@@ -4,6 +4,12 @@
 //A Node is a spot on the maze where the car needs to make a decision that isn't just forward 
 //and is given an option of a left and/or right turn
 
+//Changes:
+//Instead of item, it needs a coordinate
+//Each node needs a North, South, East, and West "Next"
+//Each node needs a Left, Right, Straight boolean
+
+
 
 #ifndef NODE_
 #define NODE_
@@ -20,7 +26,10 @@ public:
    Node(const ItemType& anItem);
    Node(const ItemType& anItem, Node<ItemType>* nextNodePtr);
    void setItem(const ItemType& anItem);
-   void setNext(Node<ItemType>* nextNodePtr);
+   void setNextN(Node<ItemType>* nextNodePtr);
+   void setNextS(Node<ItemType>* nextNodePtr);
+   void setNextE(Node<ItemType>* nextNodePtr);
+   void setNextW(Node<ItemType>* nextNodePtr);
    ItemType getItem() const ;
    Node<ItemType>* getNext() const ;
 }; // end Node
