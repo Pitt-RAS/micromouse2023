@@ -44,11 +44,15 @@ Node::Node(const int &x, const int &y, Node* nextNodePtr) : next1(nullptr), next
 }
 
 
-void Node::setCoordinate(const int &x, const int &y, const int &i)  //Change this to either 2 ints (x, y) or a 2d array
+void Node::setXCoordinate(const int &x, const int &y, const int &i)  //Change this to either 2 ints (x, y) or a 2d array
 {
    X[i] = x;
+}
+void Node::setYCoordinate(const int &x, const int &y, const int &i)  //Change this to either 2 ints (x, y) or a 2d array
+{
    Y[i] = y;
-} // end setItem
+}
+   
 
 int Node::getXCoordinate(int i) const
 {
