@@ -14,31 +14,41 @@
 #ifndef NODE_
 #define NODE_
 
-template<class ItemType>
 class Node
 {
 private:
-   ItemType        item; // A data item
-   Node<ItemType>* next; // Pointer to next node
+   static int total;    //Stores the total amount of nodes that have been declared
+   static int X[144], Y[144];     //Stores all the coordinates of the nodes, with each node index matching the coordinate index
+   
+   int index;
+   int canTurn[3];      //Stores the potential/verified turns that allow for a route to the center
+   int hasTurned[3];     //Stores the previous turn made at the node
+
+   Node* next1;   // Pointer to next nodes
+   Node* next2; 
+   Node* next3;
+   Node* next4; 
    
 public:
    //Constructors
    Node();
-   Node(const ItemType& anItem);
-   Node(const ItemType& anItem, Node<ItemType>* nextNodePtr);
+   Node(const int &x, const int &y);
+   Node(const int &x, const int &y, Node* nextNodePtr);
    //Mutator Functions
-   void setCoordinate(const ItemType& anItem);
-   void setNextN(Node<ItemType>* nextNodePtr);
-   void setNextS(Node<ItemType>* nextNodePtr);
-   void setNextE(Node<ItemType>* nextNodePtr);
-   void setNextW(Node<ItemType>* nextNodePtr);
+   void setCoordinate(const int &x, const int &y, const int &i);
+   void setNext1(Node* nextNodePtr);
+   void setNext2(Node* nextNodePtr);
+   void setNext3(Node* nextNodePtr);
+   void setNext4(Node* nextNodePtr);
    //Accessor Functions
-   ItemType getCoordinate() const ;
-   Node<ItemType>* getNextN() const ;
-   Node<ItemType>* getNextS() const ;
-   Node<ItemType>* getNextE() const ;
-   Node<ItemType>* getNextW() const ;
+   int getXCoordinate(int i) const ;
+   int getYCoordinate(int i) const ;
+   Node* getNext() const ;
 }; // end Node
 
 #include "Node.tpp"
 #endif
+
+
+
+//Do we want 4 nexts as private member variables, make an array of 4 node pointers, or dynamically allocate node pointers every time there is a new path

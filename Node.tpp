@@ -1,41 +1,103 @@
 #include "Node.hpp"
+#include <string>
 
-template<class ItemType>
-Node<ItemType>::Node() : next(nullptr)
+Node::Node() : next1(nullptr), next2(nullptr), next3(nullptr), next4(nullptr)
 {
-} // end default constructor
+   //Fill the coordinate arrays with 0's
+   for(int i=0; i<144; i++){
+      X[i] = 0;
+      Y[i] = 0;
+   }
 
-template<class ItemType>
-Node<ItemType>::Node(const ItemType& anItem) : item(anItem), next(nullptr)
-{
-} // end constructor
+   //Update total
+   total++;
+   //Initialize node index
+   index = total;
+}
 
-template<class ItemType>
-Node<ItemType>::Node(const ItemType& anItem, Node<ItemType>* nextNodePtr) :
-                item(anItem), next(nextNodePtr)
+Node::Node(const int &x, const int &y) : next1(nullptr), next2(nullptr), next3(nullptr), next4(nullptr)
 {
-} // end constructor
+   //Update total
+   total++;
+   //Initialize node index
+   index = total;
+   //Update the coordinate array with the new coordinate
+   X[total] = x;
+   Y[total] = y;
+}
 
-template<class ItemType>
-void Node<ItemType>::setItem(const ItemType& anItem)
+Node::Node(const int &x, const int &y, Node* nextNodePtr) : next1(nullptr), next2(nullptr), next3(nullptr), next4(nullptr)
 {
-   item = anItem;
+   //Update total
+   total++;
+   //Initialize node index
+   index = total;
+   //Update the coordinate array with the new coordinate
+   X[total] = x;
+   Y[total] = y;
+}
+
+
+void Node::setCoordinate(const int &x, const int &y, const int &i)  //Change this to either 2 ints (x, y) or a 2d array
+{
+   X[i] = x;
+   Y[i] = y;
 } // end setItem
 
-template<class ItemType>
-void Node<ItemType>::setNext(Node<ItemType>* nextNodePtr)
+void Node::setNext1(Node* nextNodePtr)
 {
-   next = nextNodePtr;
+   next1 = nextNodePtr;
 } // end setNext
 
-template<class ItemType>
-ItemType Node<ItemType>::getItem() const
+void Node::setNext2(Node* nextNodePtr)
 {
-   return item;
-} // end getItem
+   next2 = nextNodePtr;
+} // end setNext
 
-template<class ItemType>
-Node<ItemType>* Node<ItemType>::getNext() const
+void Node::setNext3(Node* nextNodePtr)
 {
-   return next;
+   next3 = nextNodePtr;
+} // end setNext
+
+
+void Node::setNext4(Node* nextNodePtr)
+{
+   next4 = nextNodePtr;
+} // end setNext
+
+
+int Node::getXCoordinate(const int &i) const
+{
+   return X[i];
+}
+
+int Node::getYCoordinate(const int &i) const
+{
+   return Y[i];
+}
+
+
+Node* Node::getNext1() const
+{
+   return next1;
 } // end getNext
+
+
+Node* Node::getNext2() const
+{
+   return next2;
+} // end getNext
+
+Node* Node::getNext3() const
+{
+   return next3;
+} // end getNext
+
+
+Node* Node::getNext4() const
+{
+   return next4;
+} // end getNext
+
+
+int Node::total = 0;
