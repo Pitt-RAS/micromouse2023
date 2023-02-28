@@ -1,33 +1,34 @@
 #include "Node.hpp"
 
-template <class ItemType>
-Node<ItemType>::Node() : next(nullptr)
+Node::Node() : next(nullptr)
 {
-}
+} // end default constructor
 
 Node::Node(const int &X, const int &Y) : x(X), y(Y), next(nullptr)
 {
-}
+} // end constructor
 
-Node::Node(const int &X, const int &Y, Node *nextNodePtr) : item(anItem), next(nextNodePtr)
+Node::Node(const ItemType &anItem, Node<ItemType> *nextNodePtr) : item(anItem), next(nextNodePtr)
 {
-}
+} // end constructor
 
-void Node::setCoordinate() // Change this to either 2 ints (x, y) or a 2d array
+void Node::setCoordinate(const ItemType &anItem) // Change this to either 2 ints (x, y) or a 2d array
 {
-   // TODO
-}
+   item = anItem;
+} // end setItem
 
 void Node::setNext1(Node *nextNodePtr)
 {
    next = nextNodePtr;
-}
+} // end setNext
 
+template <class ItemType>
 void Node::setNext2(Node *nextNodePtr)
 {
    next = nextNodePtr;
-}
+} // end setNext
 
+template <class ItemType>
 void Node::setNext3(Node *nextNodePtr)
 {
    next = nextNodePtr;
