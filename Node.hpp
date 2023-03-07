@@ -21,7 +21,8 @@ using std::shared_ptr;
 class Node : public Move
 {
 private:
-   int X, Y;   //Stores the location at that node
+   int X;
+   int Y;   //Stores the location at that node
 
    int canTurn[3];      //Stores the potential/verified turns that allow for a route to the center
    int hasTurned[3];     //Stores the previous turn made at the node
@@ -30,6 +31,30 @@ private:
    shared_ptr<Node> next2; 
    shared_ptr<Node> next3;
    shared_ptr<Node> next4; 
+
+
+//These set nexts are private functions that can only be called by the public setNext function
+void Node::setNext1(shared_ptr<Node> nextNodePtr)
+{
+   next1 = nextNodePtr;
+} // end setNext
+
+void Node::setNext2(shared_ptr<Node> nextNodePtr)
+{
+   next2 = nextNodePtr;
+} // end setNext
+
+void Node::setNext3(shared_ptr<Node> nextNodePtr)
+{
+   next3 = nextNodePtr;
+} // end setNext
+
+
+void Node::setNext4(shared_ptr<Node> nextNodePtr)
+{
+   next4 = nextNodePtr;
+} // end setNext
+
    
 public:
    //Constructors
@@ -38,10 +63,8 @@ public:
    Node(const int &x, const int &y, shared_ptr<Node> nextNodePtr);
    //Mutator Functions
    void setCoordinate(const int &x, const int &y, const int &i);
-   void setNext1(shared_ptr<Node> nextNodePtr);
-   void setNext2(shared_ptr<Node> nextNodePtr);
-   void setNext3(shared_ptr<Node> nextNodePtr);
-   void setNext4(shared_ptr<Node> nextNodePtr);
+   void setNext(shared_ptr<Node> nextNodePtr);
+   void removeNext(shared_ptr<Node> nextNodePtr);
    //Accessor Functions
    void setX(int x) const ;
    void setY(int y) const ;

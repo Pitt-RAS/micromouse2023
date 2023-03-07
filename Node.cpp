@@ -4,6 +4,11 @@
 using std::shared_ptr;
 
 
+
+///TODO
+//1. remove next function
+
+
 //Default Node Constructor
 //PURPOSE: This will be called when we first start 
 Node::Node() : X(0), Y(0), 
@@ -45,25 +50,22 @@ int Node::getY() const
    return Y;
 }
 
-void Node::setNext1(shared_ptr<Node> nextNodePtr)
+void Node::setNext(shared_ptr<Node> nextNodePtr)
 {
-   next1 = nextNodePtr;
+   if(next1 == nullptr)
+      setNext1(nextNodePtr);
+   else if(next2 == nullptr)
+      setNext2(nextNodePtr);
+   else if(next3 == nullptr)
+      setNext3(nextNodePtr);
+   else if(next4 == nullptr)
+      setNext4(nextNodePtr);
+   else throw(std::range_error("error in range"));
 } // end setNext
 
-void Node::setNext2(shared_ptr<Node> nextNodePtr)
+void Node::removeNext(shared_ptr<Node> nextNodePtr)   //Need to change the parameters
 {
-   next2 = nextNodePtr;
-} // end setNext
-
-void Node::setNext3(shared_ptr<Node> nextNodePtr)
-{
-   next3 = nextNodePtr;
-} // end setNext
-
-
-void Node::setNext4(shared_ptr<Node> nextNodePtr)
-{
-   next4 = nextNodePtr;
+   
 } // end setNext
 
 

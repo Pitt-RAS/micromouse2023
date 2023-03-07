@@ -4,13 +4,20 @@
 #include "abstract_list.hpp"
 #include "Node.hpp"
 
+#include <memory>
+using std::shared_ptr;
 
+
+//TODO
 //Have to change to work with 4 nexts
+//For getNodeAt funciton, it is necessary to find how to get to the node at the position. To do this,
+//  it could work to go through every possible combination of getNexts until we find it or
+//  we could make a private member variable that keeps a key of how to get to the node, but this seems insanely complicated
 
 class LinkedList: public AbstractList
 {
 private:
-  Node* headPtr;
+  shared_ptr<Node> headPtr;
   int total;    //Stores the total amount of nodes that have been declared
   int X[144], Y[144];    //Stores all the coordinates of the nodes, with each node index matching the coordinate index
 
@@ -19,7 +26,7 @@ private:
   // @post pointer to specific node is returned
   // @param position -- number of the node to be found
   // @return ponter to node at position
-  Node* getNodeAt(int position) const;
+  shared_ptr<Node> getNodeAt(int position) const;
 
 public:
   
@@ -27,7 +34,7 @@ public:
   LinkedList();
   
   // copy constructor
-  LinkedList(const LinkedList& x);
+  ////LinkedList(const LinkedList& x);
     
   // destructor
   ~LinkedList();
@@ -66,3 +73,4 @@ public:
 #include "linked_list.cpp"
 
 #endif
+

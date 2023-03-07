@@ -2,6 +2,9 @@
 
 #include "linked_list.hpp"
 
+#include <memory>
+using std::shared_ptr;
+
 LinkedList::LinkedList() : headPtr(nullptr), total(0)
 {
   
@@ -18,7 +21,7 @@ LinkedList::~LinkedList()
 LinkedList::LinkedList(const LinkedList& x)                 ////FIX SO THAT IT CAN WORK WITH ALL NEXTS   
 {
   total = x.total;
-  Node* origPtr = x.headPtr;
+  shared_ptr<Node> origPtr = x.headPtr;
 	//check if original is empty, if so make copy empty
 	if (origPtr == nullptr) 
 		headPtr = nullptr;
@@ -28,13 +31,13 @@ LinkedList::LinkedList(const LinkedList& x)                 ////FIX SO THAT IT C
 		headPtr -> setX(origPtr -> getX(0));
         headPtr -> setY(origPtr -> getY(0));
 		//copy remaining nodes
-		Node* newPtr = headPtr; 
+		shared_ptr<Node> newPtr = headPtr; 
 		origPtr = origPtr -> getNext();
 		while (origPtr != nullptr) {
 			//get next item in list, and make new node with item, and link
 			int nextX = origPtr -> getX();
             int nextY = origPtr -> getY();
-			Node* newNodePtr = new Node(nextX, nextY);
+			shared_ptr<Node> newNodePtr = new Node(nextX, nextY);
 			newPtr -> setNext(newNodePtr);
 			//shift pointers
 			newPtr = newPtr -> getNext();
@@ -71,13 +74,13 @@ int LinkedList::getLength() const noexcept
 bool LinkedList::insert(int position, const int &x, const int &y)
 {
 	if ((position >= 0) && (position <= total)) {
-		Node* newNodePtr = new Node(x, y);
+		shared_ptr<Node> newNodePtr = new Node(x, y);
 		if (position == 0) {
 			newNodePtr -> setNext(headPtr);
 			headPtr = newNodePtr;
 		}
 		else {
-			Node* prevPtr = getNodeAt(position-1);
+			shared_ptr<Node> prevPtr = getNodeAt(position-1);
 			newNodePtr -> setNext( prevPtr -> getNext() );
 			prevPtr -> setNext( newNodePtr );
 		}
@@ -90,17 +93,17 @@ bool LinkedList::insert(int position, const int &x, const int &y)
 bool LinkedList::remove(int position)
 {
 	if ((position >= 0) && (position < total)) {
-		Node* curPtr = nullptr;
+		shared_ptr<Node> curPtr = nullptr;
 		if (position == 0) {
 			curPtr = headPtr;
 			headPtr = headPtr -> getNext();
 		}
 		else {
-			Node* prevPtr = getNodeAt(position - 1);
+			shared_ptr<Node> prevPtr = getNodeAt(position - 1);
 			curPtr = prevPtr -> getNext();
 			prevPtr -> setNext( curPtr -> getNext() );
 		}
-		delete curPtr;
+		curPtr = nullptr;
 		total--;
 		return true;
 	} 
@@ -110,7 +113,7 @@ bool LinkedList::remove(int position)
 void LinkedList::clear()
 {
 	while (!isEmpty())
-	remove(0);
+		remove(0);
 } // end clear
 
 int LinkedList::getXCoordinate(int position) const
@@ -131,10 +134,11 @@ int LinkedList::getYCoordinate(int position) const
 	else throw(std::range_error("error in range"));
 } // end getEntry
 
-Node* LinkedList::getNodeAt(int position) const
+
+shared_ptr<Node> LinkedList::getNodeAt(int position) const
 {
 	//This traverses the list and returns the node at position
-	Node* curPtr = headPtr;
+	shared_ptr<Node> curPtr = headPtr;
 	for (int next = 0; next < position; next++) {
 		curPtr = curPtr -> getNext();
 	}
