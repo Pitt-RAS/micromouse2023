@@ -4,11 +4,23 @@
 #include "abstract_list.hpp"
 #include "Node.hpp"
 
-static int X, Y;
 
-template <typename T>
-class LinkedList: public AbstractList<T>
+//Have to change to work with 4 nexts
+
+class LinkedList: public AbstractList
 {
+private:
+  Node* headPtr;
+  int total;    //Stores the total amount of nodes that have been declared
+  int X[144], Y[144];    //Stores all the coordinates of the nodes, with each node index matching the coordinate index
+
+  //Locates a specified node in linked list
+  // @pre position is number of desired node, greater than 0 and less than or equal to itemCount
+  // @post pointer to specific node is returned
+  // @param position -- number of the node to be found
+  // @return ponter to node at position
+  Node* getNodeAt(int position) const;
+
 public:
   
   // default constructor
@@ -29,29 +41,28 @@ public:
   bool isEmpty() const noexcept;
 
   // return current length of the list
-  std::size_t getLength() const noexcept;
+  int getLength() const noexcept;
 
   // insert item at position in the list
-  bool insert(std::size_t position, const T& item);
+  bool insert(int position, const int &x, const int &y);
 
   // remove item at position in the list
-  bool remove(std::size_t position);
+  bool remove(int position);
 
   // remove all items from the list
   void clear();
 
   // get a copy of the item at position
-  T getEntry(std::size_t position) const;
+  int getXCoordinate(int position) const;
+  int getYCoordinate(int position) const;
 
   // set the value of the item at position 
-  void setEntry(std::size_t position, const T& newValue);
+  void setXCoordinate(int position, const int &x);
+  void setYCoordinate(int position, const int &y);
 
-private:
-  Node<T>* headPtr;
-  int itemCount;
 
 };
 
-#include "linked_list.tpp"
+#include "linked_list.cpp"
 
 #endif

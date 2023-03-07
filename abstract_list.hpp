@@ -4,7 +4,6 @@
 
 #include <cstdlib>
 
-template <typename T>
 class AbstractList
 {
 public:
@@ -12,22 +11,24 @@ public:
     virtual bool isEmpty() const noexcept = 0;
 
     // return current length of the list
-    virtual std::size_t getLength() const noexcept = 0;
+    virtual int getLength() const noexcept = 0;
 
     // insert item at position in the list using 0-based indexing
-    virtual bool insert(std::size_t position, const T &item) = 0;
+    virtual bool insert(int position, const int &x, const int &y) = 0;
 
     // remove item at position in the list using 0-based indexing
-    virtual bool remove(std::size_t position) = 0;
+    virtual bool remove(int position) = 0;
 
     // remove all items from the list
     virtual void clear() = 0;
 
     // get a copy of the item at position using 0-based indexing
-    virtual T getEntry(std::size_t position) const = 0;
+    virtual int getXCoordinate(int position) const = 0;         //Change to get Coordinate
+    virtual int getYCoordinate(int position) const = 0;         //Change to get Coordinate
 
     // set the value of the item at position using 0-based indexing
-    virtual void setEntry(std::size_t position, const T &newValue) = 0;
+    virtual void setXCoordinate(int position, const int &x) = 0;
+    virtual void setYCoordinate(int position, const int &y) = 0;
 };
 
 #endif
