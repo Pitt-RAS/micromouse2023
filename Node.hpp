@@ -23,6 +23,7 @@ class Node : public Move
 private:
    int X;
    int Y;   //Stores the location at that node
+   int index;
 
    int canTurn[3];      //Stores the potential/verified turns that allow for a route to the center
    int hasTurned[3];     //Stores the previous turn made at the node
@@ -59,17 +60,19 @@ void Node::setNext4(shared_ptr<Node> nextNodePtr)
 public:
    //Constructors
    Node();
-   Node(const int &x, const int &y);
-   Node(const int &x, const int &y, shared_ptr<Node> nextNodePtr);
+   Node(const int &x, const int &y, const int &i);
+   Node(const int &x, const int &y, const int &i, shared_ptr<Node> nextNodePtr);
    //Mutator Functions
    void setCoordinate(const int &x, const int &y, const int &i);
    void setNext(shared_ptr<Node> nextNodePtr);
    void removeNext(shared_ptr<Node> nextNodePtr);
-   //Accessor Functions
    void setX(int x) const ;
    void setY(int y) const ;
+   void setIndex(int i) const ;
+    //Accessor Functions
    int getX() const ;
    int getY() const ;
+   int getIndex() const ;
    shared_ptr<Node> getNext1() const ;
    shared_ptr<Node> getNext2() const ;
    shared_ptr<Node> getNext3() const ;

@@ -137,13 +137,55 @@ int LinkedList::getYCoordinate(int position) const
 
 shared_ptr<Node> LinkedList::getNodeAt(int position) const
 {
-	//This traverses the list and returns the node at position
-	shared_ptr<Node> curPtr = headPtr;
-	for (int next = 0; next < position; next++) {
-		curPtr = curPtr -> getNext();
-	}
-	return curPtr;
+	if(position<0 || position>=total)
+		throw(std::range_error("error in range"));
+
 } //end getNodeAt
+
+shared_ptr<Node> LinkedList::recursiveGetNodeAt(shared_ptr<Node> nodePtr, int position) const
+{
+	if(position<0 || position>=total)
+		throw(std::range_error("error in range"));
+	
+	//End recursive branch if a deadend is reached
+	if(nodePtr == nullptr)
+		return nullptr;
+
+	//End recursive branch if the index of the nodePtr is the node at the right index
+	if(nodePtr -> getIndex() == position)
+		return nodePtr;
+
+	shared_ptr<Node> nextPtr = nodePtr;
+	
+	//Next ptr is the first next and also holds the result of the recursive function
+	//**Next 1
+	nextPtr = nodePtr -> getNext1();
+	nextPtr = recursiveGetNodeAt(nextPtr, position);
+
+	//**Next 2
+	if(nextPtr == nullptr)
+	{
+		nextPtr = nodePtr -> getNext2();
+		nextPtr = recursiveGetNodeAt(nextPtr, position);
+	}
+	
+	//**Next 3
+	if(nextPtr == nullptr)
+	{
+		nextPtr = nodePtr -> getNext3();
+		nextPtr = recursiveGetNodeAt(nextPtr, position);
+	}
+
+	//**Next 4
+	if(nextPtr == nullptr)
+	{
+		nextPtr = nodePtr -> getNext4();
+		nextPtr = recursiveGetNodeAt(nextPtr, position);
+	}
+
+	return nextPtr;
+		
+} //end recursiveGetNodeAt
 
 
 void LinkedList::setXCoordinate(int position, const int &x)

@@ -27,6 +27,7 @@ private:
   // @param position -- number of the node to be found
   // @return ponter to node at position
   shared_ptr<Node> getNodeAt(int position) const;
+  shared_ptr<Node> recursiveGetNodeAt(shared_ptr<Node> nodePtr, int position) const;
 
 public:
   
