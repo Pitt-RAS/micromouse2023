@@ -2,9 +2,11 @@ import numpy as np
 
 
 class Node:
-    def __init__(self):
+    def __init__(self, x, y):
         self.walls = np.array([False, False, False, False])
         self.explored = False
+        self.children = []
+        self.x, self.y = x, y
 
     def getNorth(self):
         return self.walls[0]
@@ -42,3 +44,8 @@ class Node:
     def setExplored(self, dat):
         self.explored = dat
 
+    def __eq__(self, __value: object) -> bool:
+        if self.x == __value.x and self.y == __value.y:
+            return True
+        else:
+            return False
