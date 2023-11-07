@@ -11,4 +11,4 @@ git checkout -b *branch name*
 Almost all projects in a job will involve PRs, because it makes it easier to keep track of changes and roll them back.
 So we are also using PRs.
 
-Once you've completed work on your branch, commit and push the changes you have. Then either your IDE or Github itself will give the choice to create a PR. Accept it, and it will make the PR. Do be sure to put a message about what the intended goal is and proof it works (eg a screenshot showing the results of the simulation). Then preferably wait for someone to check you code (and confirm its fine) before merging. If needed, you can skip that. 
+Once you've completed work on your branch, commit and push the changes you have. Then either your IDE or Github itself will give the choice to create a PR, or you can go to the PR tab in Github and click the shiny green button to the right. Accept it, and it will make the PR. Do be sure to put a message about what the intended goal is and proof it works (eg a screenshot showing the results of the simulation). Then preferably wait for someone to check you code (and confirm its fine) before merging. If needed, you can skip that.
