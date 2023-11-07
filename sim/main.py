@@ -41,7 +41,7 @@ if __name__ == '__main__':
             if data[i][j].getWest():
                 canvas.create_line(corn[0], corn[1], corn[0], corn[1] - tileSize, fill="black")
             if labels:
-                canvas.create_text(corn[0] + tileSize / 2, corn[1] - tileSize / 2, text=(str(j) + ", " + str(i)), fill="black", font="Helvetica " + str(fontSize))
+                canvas.create_text(corn[0] + tileSize / 2, corn[1] - tileSize / 2, text=(f"{str(j)}, {str(i)}"), fill="black", font="Helvetica " + str(fontSize))
     robot = Bot(maze, canvas, tileSize)
     cube = canvas.create_rectangle(bot[0] + 5, bot[1] - 5, bot[0] + 30, bot[1] - 30, fill="black")
     canvas.pack()
