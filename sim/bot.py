@@ -1,5 +1,7 @@
 from maze import Maze
 from node import Node
+import time
+
 
 class Bot:
     def __init__(self, maze, page, size):
@@ -8,13 +10,14 @@ class Bot:
         self.face = 0
         self.page = page
         self.tileSize = size
+        self.Moving = False
+        self.Robot = None
 
     # Move the bot forwards in the direction it is facing
     def Go(self):
         match self.face:
             case 0:
                 self.coords[1] += 1
-                self.page.move(self.page.robot, 0, self.tileSize)
             case 1:
                 self.coords[0] += 1
             case 2:
@@ -44,3 +47,21 @@ class Bot:
                 return self.terrain.data[self.coords[0]][self.coords[1] - 1].getNorth()
             case _:
                 return self.terrain.data[self.coords[0] - 1][self.coords[1]].getEast()
+
+    def mainLoop(self):
+        self.Moving = True
+        while self.Moving:
+            command = input("Please Enter Command: ")
+            match command:
+                case "t0":
+                    self.Turn(True)
+                    print("Turned CW")
+                case "t1":
+                    self.Turn(False)
+                    print("Turned CCW")
+                case "p":
+                    print("Peered: " + str(self.Peer()))
+                case _:
+                    self.Go()
+                    print("Went to {}, {}".format(self.coords[0], self.coords[1]))
+            time.sleep(1)

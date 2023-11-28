@@ -19,6 +19,7 @@ if __name__ == '__main__':
     height = root.winfo_screenheight()
     print("Width: " + str(width) + ", height " + str(height))
     canvas = Canvas(root, bg="white", height=height, width=width)
+    canvas.pack()
     wmap = round(width / tileSize)
     hmap = round(height / tileSize)
     center = [round(width / 2), round(height / 2)]
@@ -42,9 +43,48 @@ if __name__ == '__main__':
                 canvas.create_line(corn[0], corn[1], corn[0], corn[1] - tileSize, fill="black")
             if labels:
                 canvas.create_text(corn[0] + tileSize / 2, corn[1] - tileSize / 2, text=(str(j) + ", " + str(i)), fill="black", font="Helvetica " + str(fontSize))
-    robot = Bot(maze, canvas, tileSize)
     cube = canvas.create_rectangle(bot[0] + 5, bot[1] - 5, bot[0] + 30, bot[1] - 30, fill="black")
-    canvas.pack()
+    robot = Bot(maze, canvas, tileSize)
+
+    def tCCW(event):
+        robot.Turn(0)
+
+    def tCW(event):
+        robot.Turn(1)
+
+    def mFwd(event):
+        robot.Go()
+        match robot.face:
+            case 0:
+                canvas.move(cube, 0, tileSize * -1)
+            case 1:
+                canvas.move(cube, tileSize, 0)
+            case 2:
+                canvas.move(cube, 0, tileSize)
+            case _:
+                canvas.move(cube, tileSize * -1, 0)
+
+    def mBckwd(event):
+        match robot.face:
+            case 0:
+                canvas.move(cube, 0, tileSize)
+            case 1:
+                canvas.move(cube, tileSize * -1, 0)
+            case 2:
+                canvas.move(cube, 0, tileSize * -1)
+            case _:
+                canvas.move(cube, tileSize, 0)
+
+    def ScanUp(event):
+        print("SCANNING >:)")
+
+    root.bind("<Left>", tCCW)
+    root.bind("<Right>", tCW)
+    root.bind("<Up>", mFwd)
+    root.bind("<Down>", mBckwd)
+    root.bind("<Alt-Up>", ScanUp)
+    root.bind("<Alt-Left>", ScanUp)
+    root.bind("<Alt-Right>", ScanUp)
     root.mainloop()
 
 
