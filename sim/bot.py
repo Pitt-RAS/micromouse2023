@@ -24,6 +24,20 @@ class Bot:
                 self.coords[1] -= 1
             case _:
                 self.coords[0] -= 1
+        print("{}, {}".format(self.coords[0], self.coords[1]))
+
+    # Turns the bot 180 degrees around
+    def unGo(self):
+        match self.face:
+            case 0:
+                self.face = 2
+            case 1:
+                self.face = 3
+            case 2:
+                self.face = 0
+            case _:
+                self.face = 1
+
 
     # Turn the bot either 90 deg right (cw = True) or 90 deg left (cw = False)
     def Turn(self, cw):
@@ -40,13 +54,14 @@ class Bot:
     def Peer(self):
         match self.face:
             case 0:
-                return self.terrain.data[self.coords[0]][self.coords[1] + 1].getSouth()
+                print("{} and {}".format(self.terrain.data[self.coords[1]][self.coords[0]].getWalls(), self.terrain.data[self.coords[1] + 1][self.coords[0]].getWalls()))
+                return self.terrain.data[self.coords[1] + 1][self.coords[0]].getSouth() or self.terrain.data[self.coords[1]][self.coords[0]].getNorth()
             case 1:
-                return self.terrain.data[self.coords[0] + 1][self.coords[1]].getWest()
+                return self.terrain.data[self.coords[1]][self.coords[0] + 1].getWest() or self.terrain.data[self.coords[1]][self.coords[0]].getEast()
             case 2:
-                return self.terrain.data[self.coords[0]][self.coords[1] - 1].getNorth()
+                return self.terrain.data[self.coords[1] - 1][self.coords[0]].getNorth() or self.terrain.data[self.coords[1]][self.coords[0]].getSouth()
             case _:
-                return self.terrain.data[self.coords[0] - 1][self.coords[1]].getEast()
+                return self.terrain.data[self.coords[1]][self.coords[0] - 1].getEast() or self.terrain.data[self.coords[1]][self.coords[0]].getWest()
 
     def mainLoop(self):
         self.Moving = True

@@ -36,6 +36,9 @@ class Node:
     def setWalls(self, dat):
         self.walls = dat
 
+    def getData(self):
+        return self.walls
+
     def getExplored(self):
         return self.explored
 

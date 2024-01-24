@@ -17,3 +17,14 @@ class Maze:
         self.data[0][0].setSouth(False)
         self.entrance = self.data[0][0]
         self.data = np.array(self.data)
+
+    def fill(self, map):
+        marray = bin(int(map, 16))[2:].zfill(1024)
+        print(str(marray))
+        for col in range(0, 16):
+            for row in range(0, 16):
+                offset = col * 64 + row * 4
+                self.data[row][col].setWalls([bool(int(marray[offset])), bool(int(marray[offset + 1])), bool(int(marray[offset + 2])), bool(int(marray[offset + 3]))])
+        print("Dat0: {}".format(str(self.data[0][0].getWalls())))
+        print("Dat1: {}".format(str(self.data[0][1].getWalls())))
+        print("Dat11: {}".format(str(self.data[1][0].getWalls())))
