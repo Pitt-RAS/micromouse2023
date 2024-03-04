@@ -134,7 +134,7 @@ class Chassis{
     }
 
     double pointAngle(position pos1, position pos2){
-
+        return atan((pos2.y - pos1.y)/(pos2.x-pos1.x));
     }
 
     void turnToOrientation(double theta){
