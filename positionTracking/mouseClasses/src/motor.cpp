@@ -1,49 +1,76 @@
 #include <cstdint>
 #include <Arduino.h>
+#include "QuadEncoder.h"
+#include <MiniPID.h>
+#include <motor.h>
 
-class Motor{
-    uint16_t input1, input2, pwmPin;
-    int kv, ticksPerRot;
+Motor::Motor(){};
 
-    //MiniPID velPID = MiniPID(k,p,d);
 
-    Motor(uint16_t in1, uint16_t in2, uint16_t pwmMotorPin, uint16_t standByPin, int motorKv, int encTicksPerRot){
-        input1 = in1;
-        input2 = in2;
-        pwmPin = pwmMotorPin;
-        kv = motorKv;
-        ticksPerRot = encTicksPerRot;
-        pinMode(input1, OUTPUT);
-        pinMode(input2, OUTPUT);
-        pinMode(pwmPin, OUTPUT);
-        pinMode(standByPin, OUTPUT);
-        digitalWrite(standByPin, HIGH);
+void Motor::setMotorPins(uint16_t in1, uint16_t in2, uint16_t pwmMotorPin){
+    input1 = in1;
+    input2 = in2;
+    pwmPin = pwmMotorPin;
+}
+
+void Motor::setMotorAttr(int motorKv, int encTicksPerRot, float minVoltage){
+    maxVelocity = minVoltage * motorKv/60000 * encTicksPerRot;
+}
+
+void Motor::setEncoder(QuadEncoder *enc){
+    encoder = enc;
+}
+
+void Motor::initMotor(){
+    pinMode(input1, OUTPUT);
+    pinMode(input2, OUTPUT);
+    pinMode(pwmPin, OUTPUT);
+
+    //encoder = QuadEncoder(1, encA, encB);
+    //encoder.write(0);
+    //lastEncTime = millis();
+    
+    //velPID.setPID(0,0,0);
+}
+
+void Motor::setVelocity(float velocity){
+    targetVelocity = velocity * maxVelocity;
+    //velPID.setSetpoint(targetVelocity);
+}
+
+void Motor::setRawPWM(int pwm, bool reverse){
+    if(!reverse){
+        digitalWrite(input1, LOW);
+        digitalWrite(input2, HIGH);
+        analogWrite(pwmPin, pwm);
     }
-
-    void setVelocity(float velocity){
-        //velPID.setPoint(velocity);
+    else{
+        digitalWrite(input1, HIGH);
+        digitalWrite(input2, LOW);
+        analogWrite(pwmPin, pwm);
     }
+}
 
-    void setRawPWM(int pwm, bool reverse){
-        if(reverse){
-            digitalWrite(input1, LOW);
-            digitalWrite(input2, HIGH);
-            analogWrite(pwmPin, pwm);
-        }
-        else{
-            digitalWrite(input1, HIGH);
-            digitalWrite(input2, LOW);
-            analogWrite(pwmPin, pwm);
-        }
-    }
+void Motor::stop(){
+    digitalWrite(input1, LOW);
+    digitalWrite(input2, LOW);
+}
 
-    void stop(){}
+float Motor::getVelocity(){
+    int deltaEnc =  getEncoder() - lastEnc;
+    int deltaTime = millis() - lastEncTime;
+    lastEnc = getEncoder();
+    lastEncTime = millis();
+    //ticks per millisecond
+    return deltaEnc / deltaTime / maxVelocity;
+}
 
-    float getVelocity(){}
+void Motor::stepVelocityPID(){
+    //setRawPWM(velPID.getOutput(getVelocity(), targetVelocity), targetVelocity > 0);
+}
 
-    void stepVelocityPID(){}
+int Motor::getEncoder(){
+    return 1;
+    //return encoder.read();
+}
 
-    int getEncoder(){}
-
-
-};

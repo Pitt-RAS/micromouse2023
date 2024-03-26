@@ -9,17 +9,16 @@
 #include <math.h>
 #include <chassis.h>
 
-Chassis::Chassis(float ws, float er, float wt, double x, double y, double theta/*,Motor rm, Motor lm*/){
+Chassis::Chassis(float ws, float er, float wt, double x, double y, double theta, Motor rm, Motor lm){
     wheelDiameter = ws;
     encRatio = er;
     wheelTrack = wt;
     currentPos.x = x;
     currentPos.y = y;
     currentPos.rotation = theta;
-    /*
+
     rightMotor = rm;
     leftMotor = lm;
-    */
 }
 
 void Chassis::updatePosition(float leftEncDelta, float rightEncDelta, float orientation) {

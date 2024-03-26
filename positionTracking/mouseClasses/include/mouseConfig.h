@@ -1,0 +1,16 @@
+#define MOTOR_KV 3600
+#define GEAR_RATIO 30
+
+#define MOTOR_PIN_1 16
+#define MOTOR_PIN_2 15
+#define MOTOR_PIN_PWM 18
+
+#define ENCODER_PIN_A 2
+#define ENCODER_PIN_B 3
+#define ENCODER_TICKS_PER_ROTATION 360
+
+#define MIN_VOLTAGE 5
+
+#define MOTOR_VEL_PID_P 0.0001
+#define MOTOR_VEL_PID_I 0
+#define MOTOR_VEL_PID_D 0.00005
