@@ -44,6 +44,7 @@ private:
 	double setpoint;
 
 	double lastActual;
+	double lastError;
 
 	bool firstRun;
 	bool reversed;

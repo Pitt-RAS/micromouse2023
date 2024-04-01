@@ -10,6 +10,7 @@
 */
 
 #include "MiniPID.h"
+#include <Arduino.h>
 
 //**********************************
 //Constructor functions
@@ -218,20 +219,30 @@ double MiniPID::getOutput(double actual, double setpoint){
 	//Note, this->is negative. this->actually "slows" the system if it's doing
 	//the correct thing, and small values helps prevent output spikes and overshoot 
 
-	Doutput= -D*(actual-lastActual);
-	lastActual=actual;
+	Doutput = D * (error - lastError);
+	lastError = error;
 
 
 
 	//The Iterm is more complex. There's several things to factor in to make it easier to deal with.
 	// 1. maxIoutput restricts the amount of output contributed by the Iterm.
 	// 2. prevent windup by not increasing errorSum if we're already running against our max Ioutput
-	// 3. prevent windup by not increasing errorSum if output is output=maxOutput	
+	// 3. prevent windup by not increasing errorSum if output is output=maxOutput
+	if(isnan(errorSum)){
+			errorSum = 0;
+	}	
+	
 	Ioutput=I*errorSum;
+	//Serial.printf("Iout: %f I: %f errorsum: %f ",Ioutput,I,errorSum);
 	if(maxIOutput!=0){
 		Ioutput=clamp(Ioutput,-maxIOutput,maxIOutput); 
-	}	
+	}
 
+	if(isnan(Ioutput)){
+		Ioutput = 0;
+	}
+
+	//Serial.printf("F: %f P: %f I: %f D: %f ", Foutput ,Poutput , Ioutput , Doutput);
 	//And, finally, we can just add the terms up
 	output=Foutput + Poutput + Ioutput + Doutput;
 
@@ -252,6 +263,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 		// buildup, so restrict the error directly
 	}
 	else{
+		
 		errorSum+=error;
 	}
 

@@ -11,11 +11,13 @@ class Motor{
         void setVelocity(float velocity);
         void setRawPWM(int pwm, bool reverse);
         void stop();
-        float getVelocity();
+        double getVelocity();
         void stepVelocityPID();
         void initMotor();
         void setMotorPins(uint16_t in1, uint16_t in2, uint16_t pwmMotorPin);
         void setMotorAttr(int motorKv, int encTicksPerRot, float minVoltage);
+        void setMotorAttr(float maxVel);
+        void setVelPID(MiniPID *pid);
         void setEncoder(QuadEncoder *enc);
         int getEncoder();
         uint16_t input1, input2, pwmPin, encA, encB;
@@ -23,8 +25,9 @@ class Motor{
         float targetVelocity;
         float lastEncTime;
         float maxVelocity;
+        float currentVelocity;
         QuadEncoder *encoder;
-        //MiniPID velPID;
+        MiniPID *velPID;
 
 
 };
