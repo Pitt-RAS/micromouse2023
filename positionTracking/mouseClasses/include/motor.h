@@ -20,6 +20,8 @@ class Motor{
         void setVelPID(MiniPID *pid);
         void setEncoder(QuadEncoder *enc);
         int getEncoder();
+
+    private:
         uint16_t input1, input2, pwmPin, encA, encB;
         int lastEnc;
         float targetVelocity;
@@ -28,7 +30,6 @@ class Motor{
         float currentVelocity;
         QuadEncoder *encoder;
         MiniPID *velPID;
-
 
 };
 

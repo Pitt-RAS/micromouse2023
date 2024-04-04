@@ -2,6 +2,7 @@
     "files.associations": {
         "random": "cpp",
         "typeinfo": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "memory": "cpp"
     }
 }

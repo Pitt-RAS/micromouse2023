@@ -9,20 +9,43 @@
 #include <math.h>
 #include <chassis.h>
 
-Chassis::Chassis(float ws, float er, float wt, double x, double y, double theta, Motor rm, Motor lm){
+Chassis::Chassis(){
+    currentPos.x = 0;
+    currentPos.y = 0;
+    currentPos.rotation = 0;
+
+    lastLeftEnc = 0;
+    lastRightEnc = 0;
+}
+    
+void Chassis::setChassisAttr(float ws, float er, float wt){
     wheelDiameter = ws;
     encRatio = er;
     wheelTrack = wt;
-    currentPos.x = x;
-    currentPos.y = y;
-    currentPos.rotation = theta;
-
+}
+void Chassis::setMotors(Motor *rm, Motor *lm){
     rightMotor = rm;
     leftMotor = lm;
 }
+void Chassis::setPID(MiniPID *dPID, MiniPID *aPID, MiniPID *tPID){
+    distancePID = dPID;
+    anglePID = aPID;
+    turnPID = tPID;
+}
 
-void Chassis::updatePosition(float leftEncDelta, float rightEncDelta, float orientation) {
-    
+void Chassis::setError(float dError, float aError){
+    distanceError = dError;
+    angleError = aError;
+}
+
+
+void Chassis::updatePosition() {
+
+    int leftEncDelta = leftMotor->getEncoder() - lastLeftEnc;
+    int rightEncDelta = rightMotor->getEncoder() - lastRightEnc;
+
+    float orientation = currentPos.rotation;
+
     double tickToMM = M_PI * wheelDiameter / encRatio; 
     double lDis = leftEncDelta * tickToMM;
     double rDis = rightEncDelta * tickToMM;
@@ -68,41 +91,40 @@ void Chassis::updatePosition(float leftEncDelta, float rightEncDelta, float orie
 void Chassis::moveToPostion(double x, double y){
     position target = position{x, y, 0};
     target.rotation = pointAngle(currentPos, target);
-    /*
-    PID angleController(pGain,iGain,dGain,..);
-    PID distanceController(pGain,iGain,dGain,..);
-    distanceController.setTarget(0));
-    */
-    while(/* !angleController.isSettled && !distanceController.isSettled */ true){
-        /*
+
+    distancePID->setSetpoint(0);
+
+    while(abs(anglePID->getLastError()) >= angleError || abs(distancePID->getLastError()) >= distanceError){
+        
         updatePosition();
-        angleController.setTarget(pointAngle(currentPos,target));
-        angleController.setInput(currentPos.rotation);
-        distanceController.setInput(pointDistance(currentPos,target));
-        driveVector(distanceController.getOutput(),angleController.getOutput());
-        */
+
+        driveVector(
+            distancePID->getOutput(pointDistance(currentPos,target), 0), 
+            anglePID->getOutput(currentPos.rotation, pointAngle(currentPos,target))
+            );
+
     }
+    distancePID->reset();
+    anglePID->reset();
 }
+
 double Chassis::pointDistance(position pos1, position pos2){
     return sqrt(pow(pos2.x - pos1.x,2) + pow(pos2.y - pos1.y,2));
 }
+
 double Chassis::pointAngle(position pos1, position pos2){
     return atan((pos2.y - pos1.y)/(pos2.x-pos1.x));
 }
+
 void Chassis::turnToOrientation(double theta){
-    /*
-    pseduocode PID implementation
-    replace with real PID
-    
-    PID turnController(pGain,iGain,dGain,..);
-    turnController.setTarget(theta);
-    */
-    while(/* !turnController.isSettled */ true){
-        //updatePosition();
-        //turnController.setInput(currentPos.rotation);
-        //driveVector(0, turnController.getOutput());
+
+    while(abs(anglePID->getLastError()) >= angleError){
+        updatePosition();
+        driveVector(0, turnPID->getOutput(currentPos.rotation, theta));
     }
+    turnPID->reset();
 }
+
 //set drive train to follow a vector
 void Chassis::driveVector(double velocity, double theta){
     //set max velocities between -1 and 1
@@ -116,10 +138,10 @@ void Chassis::driveVector(double velocity, double theta){
         leftOutput /= maxInputMag;
         rightOutput /= maxInputMag;
     } 
-    /*---------------------------------------------------------------------------------------------------
-    pseduocode for actual motor implementation
-    replace with real functions
-    leftMotor.setVelocity(leftOutput * maxVelocity);
-    rightMotor.setVelocity(rightOutput * maxVelocity);
-    */
+
+    leftMotor->setVelocity(leftOutput);
+    leftMotor->stepVelocityPID();
+
+    rightMotor->setVelocity(rightOutput);
+    rightMotor->stepVelocityPID();
 }

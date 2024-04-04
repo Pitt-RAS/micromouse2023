@@ -382,3 +382,7 @@ void MiniPID::checkSigns(){
 		if(F<0) F*=-1;
 	}
 }
+
+double MiniPID::getLastError(){
+	return lastError;
+}

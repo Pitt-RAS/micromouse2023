@@ -20,6 +20,7 @@ public:
 	void setOutputRampRate(double);
 	void setSetpointRange(double);
 	void setOutputFilter(double);
+	double getLastError();
 	double getOutput();
 	double getOutput(double);
 	double getOutput(double, double);
