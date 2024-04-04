@@ -1,12 +1,4 @@
-#include "maze.hpp"
-#include <iostream>
-#include <string>
-
-////--------------HELPER FUNCTIONS--------------////
-// Checks if the given coord is in bounds of the 16x16 maze
-static bool inBounds(const coord &n) {
-  return (n.x >= 0 && n.x < 16 && n.y >= 0 && n.y < 16);
-}
+#include "maze.h"
 
 ////--------------CONSTRUCTORS--------------////
 
@@ -17,6 +9,18 @@ Maze::Maze() { clear(); }
 
 ////--------------ACCESSOR FUNCTIONS--------------////
 
+bool Maze::inBounds(const coord &n) {
+  return (n.x >= 0 && n.x < 16 && n.y >= 0 && n.y < 16);
+}
+
+bool Maze::inBounds(const vector<coord> &n) {
+  for (int i = 0; i < n.size(); i++) {
+    if (!inBounds(n[i]))
+      return false;
+  }
+  return true;
+}
+
 grid Maze::getGrid() { return mazeWalls; }
 
 /// @returns Wall on South edge of box
@@ -24,7 +28,7 @@ bool Maze::getSWall(const coord &n) {
   if (inBounds(n))
     return mazeWalls.horzWalls[n.x][n.y];
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range1"));
 }
 
 /// @returns Wall on North edge of box
@@ -32,7 +36,7 @@ bool Maze::getNWall(const coord &n) {
   if (inBounds(n))
     return mazeWalls.horzWalls[n.x][n.y + 1];
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range2"));
 }
 
 /// @returns Wall on West edge of box
@@ -40,7 +44,7 @@ bool Maze::getWWall(const coord &n) {
   if (inBounds(n))
     return mazeWalls.vertWalls[n.x][n.y];
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range3"));
 }
 
 /// @returns Wall on East edge of box
@@ -48,13 +52,13 @@ bool Maze::getEWall(const coord &n) {
   if (inBounds(n))
     return mazeWalls.vertWalls[n.x + 1][n.y];
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range4"));
 }
 
 /// @returns NESW walls in struct
 bw Maze::getWalls(const coord &n) {
   if (!inBounds(n))
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range5"));
 
   bw wall;
 
@@ -71,7 +75,7 @@ box Maze::getBox(const coord &n) {
   if (inBounds(n))
     return mazeBoxes[n.x][n.y];
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range6"));
 }
 
 /// @returns cost from box n to finish
@@ -79,7 +83,7 @@ uint8_t Maze::getCost(const coord &n) {
   if (inBounds(n))
     return mazeBoxes[n.x][n.y].cost;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range7"));
 }
 
 /// @returns if explored before
@@ -87,11 +91,10 @@ bool Maze::getExplored(const coord &n) {
   if (inBounds(n))
     return mazeBoxes[n.x][n.y].explored;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range8"));
 }
 
-bool Maze::getFinished()
-  {return finished;}
+bool Maze::getFinished() { return finished; }
 
 ////--------------MUTATOR FUNCTIONS--------------////
 
@@ -101,28 +104,28 @@ void Maze::setSWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.horzWalls[n.x][n.y] = true;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range9"));
 }
 
 void Maze::setNWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.horzWalls[n.x][n.y + 1] = true;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range10"));
 }
 
 void Maze::setWWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.vertWalls[n.x][n.y] = true;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range11"));
 }
 
 void Maze::setEWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.vertWalls[n.x + 1][n.y] = true;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range12"));
 }
 
 void Maze::setBorder() {
@@ -141,28 +144,28 @@ void Maze::removeSWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.horzWalls[n.x][n.y] = false;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range13"));
 }
 
 void Maze::removeNWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.horzWalls[n.x][n.y + 1] = false;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range14"));
 }
 
 void Maze::removeWWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.vertWalls[n.x][n.y] = false;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range15"));
 }
 
 void Maze::removeEWall(const coord &n) {
   if (inBounds(n))
     mazeWalls.vertWalls[n.x + 1][n.y] = false;
   else
-    throw(std::range_error("error in range"));
+    throw(std::range_error("error in range16"));
 }
 
 /// @return Only the border should be left for the walls
@@ -183,43 +186,132 @@ void Maze::clearWalls() {
 
 /// @brief Set box to the parameter cost
 void Maze::setCost(const coord &n, const uint8_t &cost) {
-  if (inBounds(n))
+  if (inBounds(n)){
     mazeBoxes[n.x][n.y].cost = cost;
-  else
-    throw(std::range_error("error in range"));
+    API::setText(n.x, n.y, to_string(cost));
+  }else
+    throw(std::range_error("error in range17"));
 }
 
 /// @brief Set explored to true
 void Maze::setExplored(const coord &n) {
-  if (inBounds(n))
+  if (inBounds(n)){
     mazeBoxes[n.x][n.y].explored = true;
-  else
-    throw(std::range_error("error in range"));
+    API::setColor(n.x, n.y, 'b');
+  }else
+    throw(std::range_error("error in range18"));
 }
 
 ////----Remove Boxes----////
 
 /// @brief Set cost to max value
 void Maze::removeCost(const coord &n) {
-  if (inBounds(n))
-    mazeBoxes[n.x][n.y].cost = INT8_MAX;
-  else
-    throw(std::range_error("error in range"));
+  if (inBounds(n)){
+    mazeBoxes[n.x][n.y].cost = UINT8_MAX;
+    API::setText(n.x, n.y, to_string(mazeBoxes[n.x][n.y].cost));
+  }else
+    throw(std::range_error("error in range19"));
 }
 
 /// @brief Set explored to false
 void Maze::removeExplored(const coord &n) {
-  if (inBounds(n))
+  if (inBounds(n)){
     mazeBoxes[n.x][n.y].explored = false;
-  else
-    throw(std::range_error("error in range"));
+    API::setColor(n.x, n.y, 'r');
+  }else
+    throw(std::range_error("error in range20"));
 }
 
 ////----General Functions----////
-void Maze::setFinished(){
+
+// If finished, this will make private member variable finished=true
+// If not finished, finished=false
+///***Later want to add functionality for diagonal travel
+////CHANGE!!!!!!////
+void Maze::setFinished() {
+
+  queue<coord> coordQueue;
+  coord n;
+
+  // If currently at corner
+  if (mazeBoxes[0][0].cost == 0) {
+    for (uint8_t i = 7; i < 9; i++) {
+      for (uint8_t j = 7; j < 9; j++) {
+        n = coord{i, j};
+        coordQueue.push(n);
+      }
+    }
+  }
+  // If currently at center
+  else if (mazeBoxes[7][7].cost == 0 || mazeBoxes[7][8].cost == 0 ||
+           mazeBoxes[8][7].cost == 0 || mazeBoxes[8][8].cost == 0) {
+    n = coord{0, 0};
+    coordQueue.push(n);
+  }
+  // If not from start to end
+  else
+    return;
+
   finished = true;
-}
-void Maze::setUnfinished(){
+
+  coord n2;
+  uint8_t x, y;
+
+  // While queue is not empty
+  while (!coordQueue.empty()) {
+    n = coordQueue.front();
+    x = n.x;
+    y = n.y;
+    coordQueue.pop();
+
+    uint8_t currCost = getCost(n);
+    // If we made it to the finish
+    if (!currCost)
+      return;
+
+    // Queue checks all surrounding squares to see if they are on the best path
+    // If they are, add it to the queue
+
+    n2 = coord{static_cast<uint8_t>(x - 1), y};
+    // If north box can be traveled to
+    if (!getNWall(n)) {
+      // If box is on best path
+      if (currCost - 1 == getCost(n2)) {
+        // If box is explored
+        if (getExplored(n2))
+          coordQueue.push(n2);
+      }
+    }
+
+    n2 = coord{x, static_cast<uint8_t>(y - 1)};
+    // If south box can be traveled to
+    if (!getSWall(n)) {
+      if (currCost - 1 == getCost(n2)) {
+        if (getExplored(n2))
+          coordQueue.push(n2);
+      }
+    }
+
+    n2 = coord{static_cast<uint8_t>(x + 1), y};
+    // If east box can be traveled to
+    if (!getEWall(n)) {
+      if (currCost - 1 == getCost(n2)) {
+        if (getExplored(n2))
+          coordQueue.push(n2);
+      }
+    }
+
+    n2 = coord{x, static_cast<uint8_t>(y + 1)};
+    // If west box can be traveled to
+    if (!getWWall(n)) {
+      if (currCost - 1 == getCost(n2)) {
+        if (getExplored(n2))
+          coordQueue.push(n2);
+      }
+    }
+  }
+
+  // Only get here if there wasn't a fully explored path to the finish
   finished = false;
 }
 
@@ -230,13 +322,13 @@ void Maze::clearCost() {
   for (uint8_t i = 0; i < 16; i++)
     for (uint8_t j = 0; j < 16; j++)
       // reset cost to MAX
-      mazeBoxes[i][j].cost = UINT8_MAX;
+      removeCost(coord{i, j});
 }
 
 void Maze::clearExplored() {
   for (uint8_t i = 0; i < 16; i++)
     for (uint8_t j = 0; j < 16; j++)
-      mazeBoxes[i][j].explored = false;
+      removeExplored(coord{i, j});
 }
 
 void Maze::clearBoxes() {
@@ -245,38 +337,245 @@ void Maze::clearBoxes() {
 }
 
 void Maze::clear() {
-  clearWalls();
   clearBoxes();
-  finished = 0;
+  clearWalls();
+  finished = false;
 }
 
 ////--------------FLOODFILL FUNCTIONS--------------////
 
+bool Maze::checkAdjacent(const coord &n, box (&b)[16][16]) {
+  bool explored = true;
+
+  coord n2;
+  uint8_t x = n.x;
+  uint8_t y = n.y;
+
+  n2 = coord{static_cast<uint8_t>(x - 1), y};
+  if (inBounds(n2)) {
+    explored = explored & getExplored(n2);
+    b[n2.x][n2.y].explored = true;
+  }
+  n2 = coord{static_cast<uint8_t>(x + 1), y};
+  if (inBounds(n2)) {
+    explored = explored & getExplored(n2);
+    b[n2.x][n2.y].explored = true;
+  }
+  n2 = coord{x, static_cast<uint8_t>(y - 1)};
+  if (inBounds(n2)) {
+    explored = explored & getExplored(n2);
+    b[n2.x][n2.y].explored = true;
+  }
+  n2 = coord{x, static_cast<uint8_t>(y + 1)};
+  if (inBounds(n2)) {
+    explored = explored & getExplored(n2);
+    b[n2.x][n2.y].explored = true;
+  }
+
+  return explored;
+}
+
 // If an unexplored box has all adjacent boxes = explored, then that box =
 // explored
-//@note THIS SHOULD BE OPTIMIZED INSTEAD OF BRUTE FORCE
-//@optimization maybe put all unexplored into a heap and if 2 in the heap are
 // adjacent, take them out. Whatever's left should be made explored
-void Maze::autoExploreBoxes() {}
+void Maze::autoExploreBoxes() {
+  box copy[16][16];
+  for (int i = 0; i < 16; ++i) {
+    for (int j = 0; j < 16; ++j) {
+      copy[i][j] = mazeBoxes[i][j];
+    }
+  }
+
+  for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t j = 0; j < 16; j++) {
+      if (copy[i][j].explored) {
+        if (checkAdjacent(coord{i, j}, copy))
+          setExplored(coord{i, j});
+      }
+    }
+  }
+}
+
+
+////NOTHING STOPPING US FROM QUEUING THE SAME SQUARE TWICE????
 
 // Performs floodFill to fill boxes with the cost to get to the center
-bool Maze::floodFill(bool startToFinish) {
-  //get boxes ready for flood fill
-  autoExploreBoxes();
-  //clearing cost makes all costs MAX=
+void Maze::floodFill(coord start, vector<coord> finish) {
+  // get boxes ready for flood fill
+  ////autoExploreBoxes();
+  // clearing cost makes all costs MAX=
   clearCost();
 
-  //priority queue is sorted by cost but also holds whether the path has been completely explored before
-  //uint8_t holds the cost
-  //bool holds whether the path has been completely explored before. bool=true at start and will =false if box on this path hasn't been explored before
+  // priority queue is sorted by cost
+  // uint8_t holds the cost
+  // coord holds the box
+  priority_queue<q> pq;
 
-  //@note need to sort by cost, explore using coord, and have a bool to confirm if they've all been explored
-  priority_queue< pair<coord, bool> > pq;
-
-  //if we put minecraft water in center
-  if(startToFinish){
-    
-    pq.queue()
+  // The finish can be 1 square or all 4 center squares
+  // We start at the place we want to go
+  for (uint8_t i = 0; i < finish.size(); i++) {
+    pq.push(q{0, finish[i]});
+    setCost(finish[i], 0);
   }
-  
+
+  // Curr stores the box we're currently on
+  q curr;
+  coord n, n2;
+  uint8_t x, y;
+  uint8_t cost, change = 1;
+
+  // While there are unexplored boxes and we haven't found the exit
+  while (!pq.empty()) {
+
+    curr = pq.top();
+    n = curr.n;
+    cost = curr.cost;
+    x = n.x;
+    y = n.y;
+    pq.pop();
+
+    // Cost of adjacent boxes
+    cost++;
+
+    // If we're at the our current square//
+    if (x == start.x && y == start.y) {
+      setFinished();
+      return;
+    }
+
+    // Queueing Boxes //
+
+    // If north box can be traveled to and hasn't been queued yet, queue it
+    if (!getNWall(n)) {
+      n2 = coord{x, static_cast<uint8_t>(y + 1)};
+      if(inBounds(n2)){
+        // If the box hasn't gotten a cost yet
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+
+    // If south box can be traveled to and hasn't been queued yet
+    if (!getSWall(n)) {
+      n2 = coord{x, static_cast<uint8_t>(y - 1)};
+      if(inBounds(n2)){
+        // If the box hasn't gotten a cost yet
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+    // If east box can be traveled to and hasn't been queued yet
+    if (!getEWall(n)) {
+      n2 = coord{static_cast<uint8_t>(x + 1), y};
+      if(inBounds(n2)){
+        // If the box hasn't gotten a cost yet
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+
+    // If west box can be traveled to and hasn't been queued yet
+    if (!getWWall(n)) {
+      n2 = coord{static_cast<uint8_t>(x - 1), y};
+      if(inBounds(n2)){
+        // If the box hasn't gotten a cost yet
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+  }
+  // Only get here if we didn't find the finish
+  throw(std::invalid_argument("No path found"));
+}
+
+// Performs FloodFill to every box in the maze. Does not stop when reaching
+// the target boxes. Used for
+void Maze::floodFill(vector<coord> start) {
+  // get boxes ready for flood fill
+  autoExploreBoxes();
+  // clearing cost makes all costs MAX=
+  clearCost();
+
+  // priority queue is sorted by cost
+  // uint8_t holds the cost
+  // coord holds the box
+  priority_queue<q> pq;
+
+  // Pushing the four center squares to represent the finish :(
+  for (int i = 0; i < start.size(); i++) {
+    pq.push(q{0, start[i]});
+    setCost(start[i], 0);
+  }
+
+  // Curr stores the box we're currently on
+  q curr;
+  coord n, n2;
+  uint8_t x, y;
+  uint8_t cost;
+
+  // While there are unexplored boxes and we haven't found the exit
+  while (!pq.empty()) {
+
+    curr = pq.top();
+    n = curr.n;
+    cost = curr.cost;
+    x = n.x;
+    y = n.y;
+    pq.pop();
+
+    cost++;
+
+    // Queueing Boxes //
+
+    // If north box can be traveled to and hasn't been queued yet, queue it
+    if (!getNWall(n)) {
+      n2 = coord{x, static_cast<uint8_t>(y + 1)};
+      if(inBounds(n2)){
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+
+    // If south box can be traveled to and hasn't been queued yet
+    if (!getSWall(n)) {
+      n2 = coord{x, static_cast<uint8_t>(y - 1)};
+      if(inBounds(n2)){
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+    // If east box can be traveled to and hasn't been queued yet
+    if (!getEWall(n)) {
+      n2 = coord{static_cast<uint8_t>(x + 1), y};
+      if(inBounds(n2)){
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+
+    // If west box can be traveled to and hasn't been queued yet
+    if (!getWWall(n)) {
+      n2 = coord{static_cast<uint8_t>(x - 1), y};
+      if(inBounds(n2)){
+        if (getCost(n2) == UINT8_MAX) {
+          pq.push(q{cost, n2});
+          setCost(n2, cost);
+        }
+      }
+    }
+  }
 }
