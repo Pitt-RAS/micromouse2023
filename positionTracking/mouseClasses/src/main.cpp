@@ -9,7 +9,7 @@ QuadEncoder rightEnc(1, RIGHT_ENCODER_PIN_A, RIGHT_ENCODER_PIN_B);
 MiniPID rightPid(MOTOR_VEL_PID_P, MOTOR_VEL_PID_I, MOTOR_VEL_PID_D, MOTOR_VEL_PID_F);
 
 Motor leftMotor;
-QuadEncoder leftEnc(1, LEFT_ENCODER_PIN_A, LEFT_ENCODER_PIN_B);
+QuadEncoder leftEnc(2, LEFT_ENCODER_PIN_A, LEFT_ENCODER_PIN_B);
 MiniPID leftPid(MOTOR_VEL_PID_P, MOTOR_VEL_PID_I, MOTOR_VEL_PID_D, MOTOR_VEL_PID_F);
 
 MiniPID anglePID(0,0,0);
@@ -61,6 +61,10 @@ void loop() {
   mtr.stepVelocityPID();
 
 
-  delayMicroseconds(5000);
+ 
   */
+  chassis.updatePosition();
+  chassis.printPosition();
+  //Serial.printf("Left Enc: %d Right Enc: %d\n",leftMotor.getEncoder(), rightMotor.getEncoder());
+  delayMicroseconds(5000);
 }

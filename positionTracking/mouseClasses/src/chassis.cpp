@@ -84,6 +84,10 @@ void Chassis::updatePosition() {
     currentPos.x += dX;
     currentPos.y += dY;
     currentPos.rotation += deltaTheta;
+
+    lastLeftEnc = leftMotor->getEncoder();
+    lastRightEnc = rightMotor->getEncoder();
+
 }
 //blocking code with no async 
 //if future implementation requires a step method can be implemented
@@ -144,4 +148,8 @@ void Chassis::driveVector(double velocity, double theta){
 
     rightMotor->setVelocity(rightOutput);
     rightMotor->stepVelocityPID();
+}
+
+void Chassis::printPosition(){
+    Serial.printf("%f|%f|%f\n", currentPos.x, currentPos.y, currentPos.rotation);
 }

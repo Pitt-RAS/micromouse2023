@@ -32,5 +32,6 @@ class Chassis{
         void turnToOrientation(double theta);
         void driveVector(double velocity, double theta);
         void setError(float dError, float aError);
+        void printPosition();
 };
 
