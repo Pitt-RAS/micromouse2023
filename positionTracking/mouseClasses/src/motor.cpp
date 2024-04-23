@@ -83,7 +83,7 @@ double Motor::getVelocity(){
         
         int deltaTime = micros() - lastEncTime;
         int deltaEnc = encoder->read() - lastEnc;
-        Serial.printf("Delta Time: %d Delta Enc: %d Max Velocity: %f Last Enc: %d Cur Enc %d ", deltaTime, deltaEnc, maxVelocity, lastEnc, encoder->read());
+        //Serial.printf("Delta Time: %d Delta Enc: %d Max Velocity: %f Last Enc: %d Cur Enc %d ", deltaTime, deltaEnc, maxVelocity, lastEnc, encoder->read());
         currentVelocity = (double)deltaEnc / deltaTime / maxVelocity;
 
         lastEncTime = micros();
@@ -97,9 +97,9 @@ double Motor::getVelocity(){
 
 void Motor::stepVelocityPID(){
     double motorVel = getVelocity();
-    Serial.printf("%.20f\n",motorVel);
+    //Serial.printf("%.20f\n",velPID->getOutput(motorVel, targetVelocity));
     //setRawPWM(velPID->getOutput(getVelocity(), targetVelocity), targetVelocity > 0);
-    setRawPWM(velPID->getOutput(motorVel, targetVelocity), targetVelocity > 0);
+    setRawPWM(velPID->getOutput(motorVel, targetVelocity), targetVelocity < 0);
 }
 
 int Motor::getEncoder(){

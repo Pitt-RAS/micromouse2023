@@ -198,6 +198,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 
 	//Do the simple parts of the calculations
 	double error=setpoint-actual;
+	
 
 	//Calculate F output. Notice, this->depends only on the setpoint, and not the error. 
 	Foutput=F*setpoint;
@@ -221,7 +222,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 
 	Doutput = D * (error - lastError);
 	lastError = error;
-
+	//Serial.print(lastError);
 
 
 	//The Iterm is more complex. There's several things to factor in to make it easier to deal with.
@@ -229,7 +230,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 	// 2. prevent windup by not increasing errorSum if we're already running against our max Ioutput
 	// 3. prevent windup by not increasing errorSum if output is output=maxOutput
 	if(isnan(errorSum)){
-			errorSum = 0;
+		errorSum = 0;
 	}	
 	
 	Ioutput=I*errorSum;
@@ -242,7 +243,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 		Ioutput = 0;
 	}
 
-	//Serial.printf("F: %f P: %f I: %f D: %f ", Foutput ,Poutput , Ioutput , Doutput);
+	Serial.printf("F: %f P: %f I: %f D: %f\n", Foutput ,Poutput , Ioutput , Doutput);
 	//And, finally, we can just add the terms up
 	output=Foutput + Poutput + Ioutput + Doutput;
 
@@ -384,5 +385,6 @@ void MiniPID::checkSigns(){
 }
 
 double MiniPID::getLastError(){
+	
 	return lastError;
 }

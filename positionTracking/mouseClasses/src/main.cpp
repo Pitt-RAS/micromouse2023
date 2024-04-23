@@ -3,6 +3,9 @@
 #include <mouseConfig.h>
 #include "QuadEncoder.h"
 #include "chassis.h"
+#include <string>
+
+using namespace std;
 
 Motor rightMotor;
 QuadEncoder rightEnc(1, RIGHT_ENCODER_PIN_A, RIGHT_ENCODER_PIN_B);
@@ -13,15 +16,18 @@ QuadEncoder leftEnc(2, LEFT_ENCODER_PIN_A, LEFT_ENCODER_PIN_B);
 MiniPID leftPid(MOTOR_VEL_PID_P, MOTOR_VEL_PID_I, MOTOR_VEL_PID_D, MOTOR_VEL_PID_F);
 
 MiniPID anglePID(0,0,0);
-MiniPID turnPID(0,0,0);
+MiniPID turnPID(0.5,0,0);
 MiniPID distancePID(0,0,0);
 Chassis chassis;
 
 void setup(){
   Serial.begin(230400);
 
+  pinMode(17, OUTPUT);
+  digitalWrite(17, HIGH);
+
   rightPid.setMaxIOutput(255);
-  rightPid.setOutputLimits(0,255);
+  rightPid.setOutputLimits(-255,255);
 
   rightMotor.setMotorPins(RIGHT_MOTOR_PIN_1, RIGHT_MOTOR_PIN_2, RIGHT_MOTOR_PIN_PWM);
   rightMotor.setMotorAttr(MAX_VELOCITY);
@@ -31,7 +37,7 @@ void setup(){
   rightMotor.initMotor();
 
   leftPid.setMaxIOutput(255);
-  leftPid.setOutputLimits(0,255);
+  leftPid.setOutputLimits(-255,255);
 
   leftMotor.setMotorPins(LEFT_MOTOR_PIN_1, LEFT_MOTOR_PIN_2, LEFT_MOTOR_PIN_PWM);
   leftMotor.setMotorAttr(MAX_VELOCITY);
@@ -50,21 +56,67 @@ void setup(){
 
 
 void loop() {
-  /*
-  if (Serial.available() > 0) {
-    double input = (double)Serial.parseInt()/100;
-    if(input != 0){
-      mtr.setVelocity(input);
-    }
-  }
+  
+  //if (Serial.available() > 0) {
+    /*size_t pos = 0;
+    //std::string s = Serial.readString().c_str();
+    std::string s  = "0.0|0.0|0.0|255|1.0";
+    
+    rightPid.setP(stod(s.substr(0, (pos = s.find("|")))));
+    s.erase(0, pos + 1);
+    rightPid.setI(stod(s.substr(0, (pos = s.find("|")))));
+    s.erase(0, pos + 1);
+    rightPid.setD(stod(s.substr(0, (pos = s.find("|")))));
+    s.erase(0, pos + 1);
+    //rightPid.setF(stod(s.substr(0, (pos = s.find("|")))));
+    rightPid.setF(255);
+    s.erase(0, pos + 1);
 
-  mtr.stepVelocityPID();
+    rightMotor.setVelocity(1);*/
+
+    double p, i, d, f, setVel;
+
+    /*std::string s = Serial.readString().c_str();
+    //std::string s  = "0.0|0.0|0.0|255|1.0";
+    size_t pos = 0;
+
+    p = stod(s.substr(0, (pos = s.find("|"))));
+    s.erase(0, pos + 1);
+    i = stod(s.substr(0, (pos = s.find("|"))));
+    s.erase(0, pos + 1);
+    d = stod(s.substr(0, (pos = s.find("|"))));
+    s.erase(0, pos + 1);
+    f = stod(s.substr(0, (pos = s.find("|"))));
+    s.erase(0, pos + 1);
+    setVel = stod(s.substr(0, (pos = s.find("|"))));
+
+    rightPid.setPID(p,i,d,f);
+    //rightMotor.setVelocity(setVel);*/
 
 
- 
-  */
-  chassis.updatePosition();
-  chassis.printPosition();
-  //Serial.printf("Left Enc: %d Right Enc: %d\n",leftMotor.getEncoder(), rightMotor.getEncoder());
+  //}
+  //rightPid.setF(255);
+  //rightMotor.setVelocity(1);
+
+  //
+  Serial.printf("%f\n",rightMotor.getVelocity());
   delayMicroseconds(5000);
+  //chassis.updatePosition();
+  //chassis.printPosition();
+  /*
+  for(int i = 90; i < 10000; i+=90){
+    chassis.turnToOrientation(i);
+  //leftMotor.setRawPWM(255, false);
+  //rightMotor.setVelocity(-1);
+  //rightMotor.stepVelocityPID();
+
+  //leftMotor.setVelocity(1);
+  //leftMotor.stepVelocityPID();
+  //Serial.printf("Left Enc: %d Right Enc: %d\n",leftMotor.getEncoder(), rightMotor.getEncoder());
+    rightMotor.stop();
+    leftMotor.stop();
+    
+    delay(1000);
+  }*/
+  
 }

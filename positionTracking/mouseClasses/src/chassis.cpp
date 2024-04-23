@@ -34,8 +34,9 @@ void Chassis::setPID(MiniPID *dPID, MiniPID *aPID, MiniPID *tPID){
 }
 
 void Chassis::setError(float dError, float aError){
+
     distanceError = dError;
-    angleError = aError;
+    angleError =  aError * M_PI/180;
 }
 
 
@@ -121,11 +122,22 @@ double Chassis::pointAngle(position pos1, position pos2){
 }
 
 void Chassis::turnToOrientation(double theta){
-
-    while(abs(anglePID->getLastError()) >= angleError){
+    theta = theta * M_PI/180;
+    /*while(abs(anglePID->getLastError()) >= angleError){
+        Serial.print("here\n");
         updatePosition();
         driveVector(0, turnPID->getOutput(currentPos.rotation, theta));
+        delayMicroseconds(5000);
+    }*/
+    do{
+        
+        updatePosition();
+        driveVector(0, turnPID->getOutput(currentPos.rotation, theta));
+        //Serial.printf("last error: %f cur rot: %f target: %f\n", turnPID->getLastError(), currentPos.rotation, theta);
+        delayMicroseconds(5000);
     }
+    while(abs(turnPID->getLastError()) >= angleError);
+
     turnPID->reset();
 }
 
@@ -134,6 +146,7 @@ void Chassis::driveVector(double velocity, double theta){
     //set max velocities between -1 and 1
     const double forwardSpeed = std::clamp(velocity, -1.0, 1.0);
     const double yaw = std::clamp(theta, -1.0, 1.0);
+    //Serial.printf("yaw: %f\n", yaw);
     //turn motors with yaw
     double leftOutput = forwardSpeed + yaw;
     double rightOutput = forwardSpeed - yaw;
@@ -141,13 +154,15 @@ void Chassis::driveVector(double velocity, double theta){
     if (const double maxInputMag = std::max<double>(std::abs(leftOutput), std::abs(rightOutput)); maxInputMag > 1) {
         leftOutput /= maxInputMag;
         rightOutput /= maxInputMag;
-    } 
 
+    } 
+    //Serial.printf("left output: %f right output: %f\n", leftOutput, rightOutput);
     leftMotor->setVelocity(leftOutput);
     leftMotor->stepVelocityPID();
 
     rightMotor->setVelocity(rightOutput);
     rightMotor->stepVelocityPID();
+    
 }
 
 void Chassis::printPosition(){
