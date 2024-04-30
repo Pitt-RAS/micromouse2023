@@ -13,9 +13,7 @@ useSerial = True
 if useSerial:
     ser = serial.Serial('COM14', 230400, timeout=0.1)
 
-
 root = tk.Tk()
-#root.geometry('800x400')
 root.minsize(800,300)
 root.maxsize(800,300)
 root.title('Motor PID Tuner')
@@ -67,15 +65,6 @@ DtextBox.grid(column=5,row=0)
 Flabel.grid(column=6,row=0)
 FtextBox.grid(column=7,row=0)
 
-'''def updatePID():
-    p = float(PtextBox.get("1.0",END))
-    i = float(ItextBox.get("1.0",END))
-    d = float(DtextBox.get("1.0",END))
-    f = float(FtextBox.get("1.0",END))
-
-    print("{p}|{i},d,f")'''
-
-
 
 
 def update(tv, av):
@@ -86,14 +75,28 @@ def update(tv, av):
     av.pop(0)
     av = list(map(lambda tup: (tup[0] - interval, tup[1]), av))
     ser.flush()
+
+    velocity = 0
     try:
         velocity = float(ser.readline().decode())
+        av.append((740, int(-velocity*100 + 100)))
+
+        
+        print(f'<{velocitySlider.get()}>\n')
+        #ser.write(f'<{velocitySlider.get()}>\n'.encode('utf-8'))
+        p = float(PtextBox.get("1.0",END))
+        i = float(ItextBox.get("1.0",END))
+        d = float(DtextBox.get("1.0",END))
+        f = float(FtextBox.get("1.0",END))
+    
+        ser.write(f'<{p}|{i}|{d}|{f}|{velocitySlider.get()}>\n'.encode('utf-8'))
     except Exception as e:
         pass
-    av.append((740, int(-velocity*100 + 100)))
     
     plotcanvas.coords(velLine, [a for x in tv for a in x])
     plotcanvas.coords(actualLine, [a for x in av for a in x])
+    
+
     root.after(1, update, tv, av)
 
 root.after(1, update, targetVelocity, actualVelocity)

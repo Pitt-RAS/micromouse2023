@@ -49,7 +49,8 @@ void Motor::setVelocity(float velocity){
 }
 
 void Motor::setRawPWM(int pwm, bool reverse){
-    //Serial.printf(" PWM: %d\n ", pwm);
+    //Serial.printf("PWM: %d\n ", pwm);
+    pwm = abs(pwm);
     if(!reverse){
         digitalWrite(input1, LOW);
         digitalWrite(input2, HIGH);

@@ -243,9 +243,9 @@ double MiniPID::getOutput(double actual, double setpoint){
 		Ioutput = 0;
 	}
 
-	Serial.printf("F: %f P: %f I: %f D: %f\n", Foutput ,Poutput , Ioutput , Doutput);
+	//Serial.printf("F: %f P: %f I: %f D: %f\n", Foutput ,Poutput , Ioutput , Doutput);
 	//And, finally, we can just add the terms up
-	output=Foutput + Poutput + Ioutput + Doutput;
+	output = Foutput + Poutput + Ioutput + Doutput;
 
 	//Figure out what we're doing with the error.
 	if(minOutput!=maxOutput && !bounded(output, minOutput,maxOutput) ){
@@ -274,7 +274,7 @@ double MiniPID::getOutput(double actual, double setpoint){
 	}
 	if(minOutput!=maxOutput){ 
 		output=clamp(output, minOutput,maxOutput);
-		}
+	}
 	if(outputFilter!=0){
 		output=lastOutput*outputFilter+output*(1-outputFilter);
 	}

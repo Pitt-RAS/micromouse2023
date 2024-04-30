@@ -20,6 +20,11 @@ MiniPID turnPID(0.5,0,0);
 MiniPID distancePID(0,0,0);
 Chassis chassis;
 
+const char numChars = 32;
+char receivedChars[numChars];
+
+boolean newData = false;
+
 void setup(){
   Serial.begin(230400);
 
@@ -55,52 +60,71 @@ void setup(){
 }
 
 
+void recvWithStartEndMarkers() {
+    static boolean recvInProgress = false;
+    static char ndx = 0;
+    char startMarker = '<';
+    char endMarker = '>';
+    char rc;
+ 
+    while (Serial.available() > 0 && newData == false) {
+        rc = Serial.read();
+
+        if (recvInProgress == true) {
+            if (rc != endMarker) {
+                receivedChars[ndx] = rc;
+                ndx++;
+                if (ndx >= numChars) {
+                    ndx = numChars - 1;
+                }
+            }
+            else {
+                receivedChars[ndx] = '\0'; // terminate the string
+                recvInProgress = false;
+                ndx = 0;
+                newData = true;
+            }
+        }
+
+        else if (rc == startMarker) {
+            recvInProgress = true;
+        }
+    }
+}
+
+void showNewData() {
+    if (newData == true) {
+      size_t pos = 0;
+      double p, i, d, f, setVel;
+      //leftMotor.setVelocity(stod(receivedChars));
+      std::string s(receivedChars);
+
+      p = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      i = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      d = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      f = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      setVel = stod(s.substr(0, (pos = s.find("|"))));
+
+      rightPid.setPID(p,i,d,f);
+      rightMotor.setVelocity(setVel);
+
+      newData = false;
+    }
+}
+
 void loop() {
-  
-  //if (Serial.available() > 0) {
-    /*size_t pos = 0;
-    //std::string s = Serial.readString().c_str();
-    std::string s  = "0.0|0.0|0.0|255|1.0";
-    
-    rightPid.setP(stod(s.substr(0, (pos = s.find("|")))));
-    s.erase(0, pos + 1);
-    rightPid.setI(stod(s.substr(0, (pos = s.find("|")))));
-    s.erase(0, pos + 1);
-    rightPid.setD(stod(s.substr(0, (pos = s.find("|")))));
-    s.erase(0, pos + 1);
-    //rightPid.setF(stod(s.substr(0, (pos = s.find("|")))));
-    rightPid.setF(255);
-    s.erase(0, pos + 1);
-
-    rightMotor.setVelocity(1);*/
-
-    double p, i, d, f, setVel;
-
-    /*std::string s = Serial.readString().c_str();
-    //std::string s  = "0.0|0.0|0.0|255|1.0";
-    size_t pos = 0;
-
-    p = stod(s.substr(0, (pos = s.find("|"))));
-    s.erase(0, pos + 1);
-    i = stod(s.substr(0, (pos = s.find("|"))));
-    s.erase(0, pos + 1);
-    d = stod(s.substr(0, (pos = s.find("|"))));
-    s.erase(0, pos + 1);
-    f = stod(s.substr(0, (pos = s.find("|"))));
-    s.erase(0, pos + 1);
-    setVel = stod(s.substr(0, (pos = s.find("|"))));
-
-    rightPid.setPID(p,i,d,f);
-    //rightMotor.setVelocity(setVel);*/
-
-
-  //}
-  //rightPid.setF(255);
-  //rightMotor.setVelocity(1);
-
-  //
+  //motor pid tuning code
+  /*recvWithStartEndMarkers();
+  showNewData();
+  rightMotor.stepVelocityPID();
   Serial.printf("%f\n",rightMotor.getVelocity());
-  delayMicroseconds(5000);
+  delayMicroseconds(5000);*/
+
+
   //chassis.updatePosition();
   //chassis.printPosition();
   /*
