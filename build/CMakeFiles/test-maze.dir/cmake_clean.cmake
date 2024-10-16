@@ -1,6 +1,9 @@
 file(REMOVE_RECURSE
+<<<<<<< HEAD
   "CMakeFiles/test-maze.dir/API.cpp.obj"
   "CMakeFiles/test-maze.dir/API.cpp.obj.d"
+=======
+>>>>>>> main
   "CMakeFiles/test-maze.dir/maze.cpp.obj"
   "CMakeFiles/test-maze.dir/maze.cpp.obj.d"
   "CMakeFiles/test-maze.dir/mouse.cpp.obj"

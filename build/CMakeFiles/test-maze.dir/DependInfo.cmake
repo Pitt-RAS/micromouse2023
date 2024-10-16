@@ -8,10 +8,16 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+<<<<<<< HEAD
   "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/API.cpp" "CMakeFiles/test-maze.dir/API.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/API.cpp.obj.d"
   "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/maze.cpp" "CMakeFiles/test-maze.dir/maze.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/maze.cpp.obj.d"
   "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/mouse.cpp" "CMakeFiles/test-maze.dir/mouse.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/mouse.cpp.obj.d"
   "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/test_maze.cpp" "CMakeFiles/test-maze.dir/test_maze.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/test_maze.cpp.obj.d"
+=======
+  "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/maze.cpp" "CMakeFiles/test-maze.dir/maze.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/maze.cpp.obj.d"
+  "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/mouse.cpp" "CMakeFiles/test-maze.dir/mouse.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/mouse.cpp.obj.d"
+  "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/test_maze.cpp" "CMakeFiles/test-maze.dir/test_maze.cpp.obj" "gcc" "CMakeFiles/test-maze.dir/test_maze.cpp.obj.d"
+>>>>>>> main
   )
 
 # Targets to which this target links which contain Fortran sources.

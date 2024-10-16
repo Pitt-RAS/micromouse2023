@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 "CMakeFiles/test-maze.dir/maze.cpp.obj" "CMakeFiles/test-maze.dir/mouse.cpp.obj" "CMakeFiles/test-maze.dir/test_maze.cpp.obj" "CMakeFiles/test-maze.dir/API.cpp.obj"
+=======
+"CMakeFiles/test-maze.dir/maze.cpp.obj" "CMakeFiles/test-maze.dir/mouse.cpp.obj" "CMakeFiles/test-maze.dir/test_maze.cpp.obj"
+>>>>>>> main

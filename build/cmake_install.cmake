@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse
+# Install script for directory: C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -52,6 +52,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

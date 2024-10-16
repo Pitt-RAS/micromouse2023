@@ -1,26 +1,20 @@
 [
 {
-  "directory": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build",
-  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/maze.cpp.obj -c C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/maze.cpp",
-  "file": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/maze.cpp",
+  "directory": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build",
+  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/maze.cpp.obj -c C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/maze.cpp",
+  "file": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/maze.cpp",
   "output": "CMakeFiles/test-maze.dir/maze.cpp.obj"
 },
 {
-  "directory": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build",
-  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/mouse.cpp.obj -c C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/mouse.cpp",
-  "file": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/mouse.cpp",
+  "directory": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build",
+  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/mouse.cpp.obj -c C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/mouse.cpp",
+  "file": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/mouse.cpp",
   "output": "CMakeFiles/test-maze.dir/mouse.cpp.obj"
 },
 {
-  "directory": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build",
-  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/test_maze.cpp.obj -c C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/test_maze.cpp",
-  "file": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/test_maze.cpp",
+  "directory": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build",
+  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/test_maze.cpp.obj -c C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/test_maze.cpp",
+  "file": "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/test_maze.cpp",
   "output": "CMakeFiles/test-maze.dir/test_maze.cpp.obj"
-},
-{
-  "directory": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build",
-  "command": "C:/msys64/ucrt64/bin/g++.exe   -g -std=gnu++11 -o CMakeFiles/test-maze.dir/API.cpp.obj -c C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/API.cpp",
-  "file": "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/API.cpp",
-  "output": "CMakeFiles/test-maze.dir/API.cpp.obj"
 }
 ]

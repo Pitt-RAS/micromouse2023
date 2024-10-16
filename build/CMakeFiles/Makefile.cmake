@@ -25,7 +25,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-3.30/Modules/Platform/Windows-windres.cmake"
   "C:/Program Files/CMake/share/cmake-3.30/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake"
-  "C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/CMakeLists.txt"
+  "C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/CMakeLists.txt"
   "CMakeFiles/3.30.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.30.3/CMakeRCCompiler.cmake"
   "CMakeFiles/3.30.3/CMakeSystem.cmake"

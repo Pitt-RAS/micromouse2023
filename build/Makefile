@@ -57,10 +57,10 @@ RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse
+CMAKE_SOURCE_DIR = C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build
+CMAKE_BINARY_DIR = C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,9 +97,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build/CMakeFiles C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build/CMakeFiles C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/danim/OneDrive/Desktop/MicroMouse/micromouse/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/danim/OneDrive/Documents/GitHub/micromouse2023/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -138,30 +138,6 @@ test-maze: cmake_check_build_system
 test-maze/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test-maze.dir/build.make CMakeFiles/test-maze.dir/build
 .PHONY : test-maze/fast
-
-API.obj: API.cpp.obj
-.PHONY : API.obj
-
-# target to build an object file
-API.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test-maze.dir/build.make CMakeFiles/test-maze.dir/API.cpp.obj
-.PHONY : API.cpp.obj
-
-API.i: API.cpp.i
-.PHONY : API.i
-
-# target to preprocess a source file
-API.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test-maze.dir/build.make CMakeFiles/test-maze.dir/API.cpp.i
-.PHONY : API.cpp.i
-
-API.s: API.cpp.s
-.PHONY : API.s
-
-# target to generate assembly for a file
-API.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test-maze.dir/build.make CMakeFiles/test-maze.dir/API.cpp.s
-.PHONY : API.cpp.s
 
 maze.obj: maze.cpp.obj
 .PHONY : maze.obj
@@ -245,9 +221,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test-maze"
-	@echo "... API.obj"
-	@echo "... API.i"
-	@echo "... API.s"
 	@echo "... maze.obj"
 	@echo "... maze.i"
 	@echo "... maze.s"
