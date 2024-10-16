@@ -1,5 +1,6 @@
 #include "mouse.h"
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <map>
@@ -16,7 +17,7 @@ Mouse::Mouse() : direction(n), fromCenter(0) {
   resetCenter();
   resetDestination();
   m.floodFill(location, destination);
-  //explore();
+  explore();
 }
 
 Mouse::Mouse(Maze maze) : direction(n), fromCenter(0), m(maze) {
@@ -173,8 +174,10 @@ vector<coord> Mouse::getDestination() { return destination; }
 bool Mouse::isAtDestination() {
   for (int i = 0; i < destination.size(); i++) {
     if (location == destination[i])
+      std::cerr<<"Is At Destination"<<endl;
       return true;
   }
+  std::cerr<<"Is not at Destination"<<endl;
   return false;
 }
 
@@ -196,32 +199,37 @@ uint8_t Mouse::getCurrCost() { return m.getCost(location); }
 
 // @returns cost of box that is on the left of the mouse
 uint8_t Mouse::getLeftCost() {
+  coord n2;
   switch (direction) {
   // left = west = x--
   case n:
-    if (m.inBounds(coord{location.x--, location.y}))
-      return m.getCost(coord{location.x--, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x - 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // left = east = x++
   case s:
-    if (m.inBounds(coord{location.x++, location.y}))
-      return m.getCost(coord{location.x++, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x + 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // left = south = y--
   case w:
-    if (m.inBounds(coord{location.x, location.y--}))
-      return m.getCost(coord{location.x, location.y--});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y - 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // left = north = y++
   case e:
-    if (m.inBounds(coord{location.x, location.y++}))
-      return m.getCost(coord{location.x, location.y++});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y + 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
@@ -233,32 +241,37 @@ uint8_t Mouse::getLeftCost() {
 
 // @returns cost of box that is in front of the mouse
 uint8_t Mouse::getForwardCost() {
+  coord n2;
   switch (direction) {
   // forward = y++
   case n:
-    if (m.inBounds(coord{location.x, location.y++}))
-      return m.getCost(coord{location.x, location.y++});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y + 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // forward = y--
   case s:
-    if (m.inBounds(coord{location.x, location.y--}))
-      return m.getCost(coord{location.x, location.y--});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y - 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // forward = x--
   case w:
-    if (m.inBounds(coord{location.x--, location.y}))
-      return m.getCost(coord{location.x--, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x - 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // forward = x++
   case e:
-    if (m.inBounds(coord{location.x++, location.y}))
-      return m.getCost(coord{location.x++, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x + 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
@@ -270,32 +283,37 @@ uint8_t Mouse::getForwardCost() {
 
 // @returns cost of box that is on the right of the mouse
 uint8_t Mouse::getRightCost() {
+  coord n2;
   switch (direction) {
   // right = east = x++
   case n:
-    if (m.inBounds(coord{location.x++, location.y}))
-      return m.getCost(coord{location.x++, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x + 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // right = west = x+--
   case s:
-    if (m.inBounds(coord{location.x--, location.y}))
-      return m.getCost(coord{location.x--, location.y});
+    n2 = coord{static_cast<uint8_t>(location.x - 1), location.y};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // right = north = y++
   case w:
-    if (m.inBounds(coord{location.x, location.y++}))
-      return m.getCost(coord{location.x, location.y++});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y + 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
   // right = south = y--
   case e:
-    if (m.inBounds(coord{location.x, location.y--}))
-      return m.getCost(coord{location.x, location.y--});
+    n2 = coord{location.x, static_cast<uint8_t>(location.y - 1)};
+    if (m.inBounds(n2))
+      return m.getCost(n2);
     else
       return UINT8_MAX;
     break;
@@ -332,8 +350,11 @@ void Mouse::setCenter(const coord &n) {
 
 // Sets destination to a new location(s)
 void Mouse::setDestination(const vector<coord> &n) {
-  if (m.inBounds(n))
-    destination = n;
+  for (int i = 0; i < n.size(); i++) {
+    if (m.inBounds(n[i]))
+      destination.push_back(n[i]);
+      API::setColor(n[i].x, n[i].y, 'g');
+  }
 }
 
 // 0 = "forwards", 1 = "backwards"
@@ -349,9 +370,9 @@ void Mouse::resetCenter() {
 
 void Mouse::resetDestination() {
   if (fromCenter)
-    destination = {coord{0, 0}};
+    setDestination({coord{0, 0}});
   else
-    destination = center;
+    setDestination({center});
 }
 
 void Mouse::resetFromCenter() { fromCenter = false; };
@@ -449,60 +470,48 @@ void Mouse::setRightWall(bool right) {
 
 // Set walls of all surrounding walls to sensor values
 void Mouse::setWalls(bool left, bool forward, bool right) {
-  uint8_t sensorData = getSensorData();
+  std::array<uint8_t, 3> sensorData = getSensorData();
 
-  setLeftWall(sensorData % 2);
-  setForwardWall(sensorData % 4);
-  setRightWall(sensorData % 8);
+  setLeftWall(sensorData[2]);
+  setForwardWall(sensorData[1]);
+  setRightWall(sensorData[0]);
 }
 
 ////--------------MOVEMENT FUNCTIONS--------------////
 
-// Returns the statuses for the wall from sensors
-uint8_t Mouse::getSensorData() {
+// Returns the statuses for the walls from sensors as an array of uint8_t
+std::array<uint8_t, 3> Mouse::getSensorData() {
+    std::array<uint8_t, 3> sensors = {0, 0, 0}; // [right, forward, left]
+    std::string wall;
 
-  // bit 2 = left; bit 1 = forward; bit 0 = right
-  uint8_t sensors = 0;
+    for (int i = 0; i < 3; i++) {
+        switch (i) {
+            case 0:
+                API::wallRight();  // Prompt for the right wall
+                break;
+            case 1:
+                API::wallFront();  // Prompt for the front wall
+                break;
+            case 2:
+                API::wallLeft();   // Prompt for the left wall
+                break;
+            default:
+                throw(std::range_error("error in for loop"));
+        }
 
-  string wall;
+        // Reading input from the user
+        std::cin >> wall;
 
-  for(int i=0; i<3; i++){
-    switch (i) {
-      case 0:
-        // Prompting the simulation to enter a number
-        API::wallRight();
-        break;
-      case 1:
-        // Prompting the simulation to enter a number
-        API::wallFront();
-        break;
-      case 2:
-        // Prompting the simulation to enter a number
-        API::wallLeft();
-        break;
-      default:
-        throw(std::range_error("error in for loop"));
-        break;
-      
-      // Reading input from the user
-      std::cin >> wall;
-
-      if(wall == "True"){
-        sensors += 2^i;
-      } else if(wall != "False"){
-          throw(std::range_error("error in stdin"));
-          break;
-      }
+        if (wall == "True") {
+            sensors[i] = 1;  // Set wall present
+        } else if (wall == "False") {
+            sensors[i] = 0;  // No wall
+        } else {
+            throw(std::range_error("Invalid input"));
+        }
     }
 
-    return sensors;
-  }
-
-
-  /* PLEASE PUT CODE THAT RETURNS SENSOR DATA HERE HERE */
-
-  // return sensors;
-  return sensors;
+    return sensors;  // Return the array containing wall statuses for right, forward, and left
 }
 
 // Add coord to unexplored list - no duplicates
@@ -659,17 +668,21 @@ dir Mouse::findNextMove() {
   // values won't change and we will say to go backwards
   dir newDir = turnToDir(-4);
   uint8_t minCost = getCurrCost();
+  std::cerr<<"Curr cost is: "<<to_string(minCost)<<endl;
+
 
   // If the left box's cost is less than current cost, we should go left
   if (minCost >= getLeftCost()) {
     newDir = turnToDir(-2);
     minCost = getLeftCost();
+    std::cerr<<"Left cost is: "<<to_string(getLeftCost())<<endl;
   }
 
   // If right box is the best place to go next, go there
   if (minCost >= getRightCost()) {
     newDir = turnToDir(2);
     minCost = getRightCost();
+    std::cerr<<"Right cost is: "<<to_string(getLeftCost())<<endl;
   }
 
   // If forward box is the best place to go next, go there
@@ -678,6 +691,7 @@ dir Mouse::findNextMove() {
   if (minCost >= getForwardCost()) {
     newDir = direction;
     minCost = getLeftCost();
+    std::cerr<<"Forward cost is: "<<to_string(getLeftCost())<<endl;
   }
 
   ///***Find a way to return the best direction. If can't use operation,
@@ -686,6 +700,7 @@ dir Mouse::findNextMove() {
         setDir(newDir)
         moveForward() */
 
+  std::cerr<<"Next direction is: "<<to_string(newDir)<<" with cost "<<to_string(minCost)<<endl;
   return newDir;
 }
 
@@ -700,11 +715,12 @@ void Mouse::explore() {
   while (!m.getFinished()) {
     // While mouse isn't at desired point yet (start, finish, nextBestSquare)
     while (!isAtDestination()) {
-
-      dir newDir = findNextMove();
+      m.setExplored(location);
+      std::cerr<<"Next Move being found"<<endl;
+      dir newDir = findNextMove(); std::cerr<<"next direction:"<< newDir <<endl; return;
+      std::cerr<<"Next Move found"<<endl;
       // If there's a good move
       if (newDir != turnToDir(-4)) {
-        //////INCLUDE TURN FUNCTION IF NECESSARY
         setDirection(newDir);
         moveForwardOne();
       }
@@ -724,6 +740,7 @@ void Mouse::explore() {
 
     // If mouse is currently at the finish, go to the other end
     if (isAtFinish()) {
+      std::cerr<<"At the Finish"<<endl;
       // Set the center as the square with the exit
       if (center.size() > 1)
         /////MAYBE CHANGE A LITTLE
@@ -732,13 +749,16 @@ void Mouse::explore() {
     }
 
     if (!fromCenter) {
+      std::cerr<<"At Destination from Corner"<<endl;
       setDestination(center);
       ////MIGHT WANT TO DO LOCATION INSTEAD OF {0, 0}
-      m.floodFill(coord{0, 0}, destination);
+      m.floodFill(location, destination);
+      std::cerr<<"Next Move being found"<<endl;
     } else {
+      std::cerr<<"At Destination from Center"<<endl;
       setDestination({coord{0, 0}});
       ////MIGHT WANT TO DO LOCATION INSTEAD OF CENTER
-      m.floodFill(center[0], {coord{0, 0}});
+      m.floodFill(location, {coord{0, 0}});
     }
   }
 }

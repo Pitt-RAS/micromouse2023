@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Replace with all files in folder
-set(SOURCE maze.cpp maze.h mouse.cpp mouse.h test_maze.cpp)
+set(SOURCE maze.cpp maze.h mouse.cpp mouse.h test_maze.cpp API.cpp API.h)
 
 # create unittests
 #Name before catch.hpp is user chosen: can't be the same name as any other file

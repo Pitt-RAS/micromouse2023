@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cstdint>
 #include <queue>
+#include <array>
 #include <stack>
 #include <list>
 
@@ -93,7 +94,7 @@ public:
   void setWalls(bool left, bool forward, bool right);
 
   //Movement Functions
-  uint8_t getSensorData();
+  std::array<uint8_t, 3> getSensorData();
   void moveForwardOne(); ///
   void turnLeft(); ///
   void turnRight(); ///
