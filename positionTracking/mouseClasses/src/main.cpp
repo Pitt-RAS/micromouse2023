@@ -16,14 +16,17 @@ QuadEncoder leftEnc(2, LEFT_ENCODER_PIN_A, LEFT_ENCODER_PIN_B);
 MiniPID leftPid(MOTOR_VEL_PID_P, MOTOR_VEL_PID_I, MOTOR_VEL_PID_D, MOTOR_VEL_PID_F);
 
 MiniPID anglePID(0,0,0);
-MiniPID turnPID(0.5,0,0);
+MiniPID turnPID(0.65,0.01,0);
 MiniPID distancePID(0,0,0);
 Chassis chassis;
 
 const char numChars = 32;
 char receivedChars[numChars];
 
-boolean newData = false;
+bool newData = false;
+
+bool isTurning = false;
+int turnOri = 1;
 
 void setup(){
   Serial.begin(230400);
@@ -54,13 +57,13 @@ void setup(){
   chassis.setMotors(&rightMotor, &leftMotor);
   chassis.setChassisAttr(WHEEL_DIAMETER, ENCODER_TICKS_PER_WHEEL_ROTATION, WHEEL_TRACK);
   chassis.setPID(&distancePID, &anglePID, &turnPID);
-  chassis.setError(5,0.5);
+  chassis.setError(5, 2 * M_PI / 180);
 
   //rightMotor.setVelocity(1);
 }
 
 
-void recvWithStartEndMarkers() {
+/*void recvWithStartEndMarkers() {
     static boolean recvInProgress = false;
     static char ndx = 0;
     char startMarker = '<';
@@ -92,7 +95,7 @@ void recvWithStartEndMarkers() {
     }
 }
 
-void showNewData() {
+void getMotorPIDData() {
     if (newData == true) {
       size_t pos = 0;
       double p, i, d, f, setVel;
@@ -116,31 +119,69 @@ void showNewData() {
     }
 }
 
-void loop() {
-  //motor pid tuning code
-  /*recvWithStartEndMarkers();
-  showNewData();
+void getTurnPIDData() {
+    if (newData == true) {
+      size_t pos = 0;
+      double p, i, d;
+      bool turnButton;
+
+      std::string s(receivedChars);
+
+      p = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      i = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      d = stod(s.substr(0, (pos = s.find("|"))));
+      s.erase(0, pos + 1);
+      turnButton = "1" == s.substr(0, (pos = s.find("|")));
+
+      turnPID.setPID(p,i,d);
+
+      if(!isTurning && turnButton){
+        isTurning = true;
+      }
+
+      newData = false;
+    }
+}
+
+void receivePIDData(){
+  recvWithStartEndMarkers();
+  getMotorPIDData();
   rightMotor.stepVelocityPID();
   Serial.printf("%f\n",rightMotor.getVelocity());
-  delayMicroseconds(5000);*/
+  delayMicroseconds(5000);
+}
 
-
-  //chassis.updatePosition();
-  //chassis.printPosition();
-  /*
-  for(int i = 90; i < 10000; i+=90){
-    chassis.turnToOrientation(i);
-  //leftMotor.setRawPWM(255, false);
-  //rightMotor.setVelocity(-1);
-  //rightMotor.stepVelocityPID();
-
-  //leftMotor.setVelocity(1);
-  //leftMotor.stepVelocityPID();
-  //Serial.printf("Left Enc: %d Right Enc: %d\n",leftMotor.getEncoder(), rightMotor.getEncoder());
+void receivePIDTurnData(){
+  recvWithStartEndMarkers();
+  getTurnPIDData();
+  if(isTurning){
+    chassis.turnToOrientation((turnOri++) * 90 );
     rightMotor.stop();
     leftMotor.stop();
-    
-    delay(1000);
-  }*/
+    isTurning = false;
+  }
+  delayMicroseconds(5000);
+}*/
+bool hitWall(){
+  return false;
+}
+
+void loop() {
+  double theta = 0;
+  while(!hitWall){
+    chassis.driveVector(1, 0);
+    delayMicroseconds(5000);
+  }
+  rightMotor.stop();
+  leftMotor.stop();
+
+ // theta +=
+  //chassis.turnToOrientation()
+  //chassis.updatePosition();
+  //chassis.printPosition();
+  
+  
   
 }

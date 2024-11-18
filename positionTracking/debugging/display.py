@@ -23,8 +23,8 @@ class Mouse:
     def parse_input(self, input_string):
         variables = {}
         values = input_string.split('|')
-        variables["x"] = float(values[0])
-        variables["y"] = float(values[1])
+        variables["x"] = float(values[0])+100
+        variables["y"] = float(values[1])+100
         variables["theta"] = float(values[2])
         return variables
 

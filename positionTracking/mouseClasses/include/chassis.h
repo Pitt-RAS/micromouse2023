@@ -1,6 +1,7 @@
 #pragma once
 #include <motor.h>
 #include <MiniPID.h>
+#include <elapsedMillis.h>
 
 class Chassis{
 
@@ -21,6 +22,7 @@ class Chassis{
         MiniPID *turnPID;
         float distanceError;
         float angleError;
+        elapsedMicros turnTargetTime;
 
     public:
         Chassis();
@@ -33,5 +35,6 @@ class Chassis{
         void driveVector(double velocity, double theta);
         void setError(float dError, float aError);
         void printPosition();
+        bool turnIsSettled();
 };
 

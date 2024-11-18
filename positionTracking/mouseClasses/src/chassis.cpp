@@ -122,6 +122,7 @@ double Chassis::pointAngle(position pos1, position pos2){
 }
 
 void Chassis::turnToOrientation(double theta){
+    turnTargetTime = 0;
     theta = theta * M_PI/180;
     /*while(abs(anglePID->getLastError()) >= angleError){
         Serial.print("here\n");
@@ -130,13 +131,13 @@ void Chassis::turnToOrientation(double theta){
         delayMicroseconds(5000);
     }*/
     do{
-        
+        printPosition();
         updatePosition();
         driveVector(0, turnPID->getOutput(currentPos.rotation, theta));
         //Serial.printf("last error: %f cur rot: %f target: %f\n", turnPID->getLastError(), currentPos.rotation, theta);
         delayMicroseconds(5000);
     }
-    while(abs(turnPID->getLastError()) >= angleError);
+    while(!turnIsSettled());
 
     turnPID->reset();
 }
@@ -163,6 +164,14 @@ void Chassis::driveVector(double velocity, double theta){
     rightMotor->setVelocity(rightOutput);
     rightMotor->stepVelocityPID();
     
+}
+
+bool Chassis::turnIsSettled(){
+    
+    if(abs(turnPID->getLastError()) >= angleError){
+        turnTargetTime = 0;
+    }
+    return (500000 <= turnTargetTime) && (abs(turnPID->getLastError()) <= angleError);
 }
 
 void Chassis::printPosition(){
